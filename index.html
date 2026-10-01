@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SATAK - Konek Terus | Kelola Keuangan Jadi Lebih Mudah</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cyan: #00E5CC;
+            --cyan-light: #4DFFF0;
+            --blue: #0066FF;
+            --blue-dark: #0047B3;
+            --navy: #0A1628;
+            --navy-light: #132240;
+            --white: #FFFFFF;
+            --gray-100: #F0F4F8;
+            --gray-200: #E2E8F0;
+            --gray-400: #94A3B8;
+            --gray-600: #475569;
+            --gradient-primary: linear-gradient(135deg, #00E5CC 0%, #0066FF 100%);
+            --gradient-card: linear-gradient(145deg, #0A1628 0%, #132240 100%);
+            --gradient-glow: linear-gradient(135deg, rgba(0,229,204,0.15) 0%, rgba(0,102,255,0.15) 100%);
+            --shadow-cyan: 0 0 40px rgba(0, 229, 204, 0.3);
+            --shadow-blue: 0 0 40px rgba(0, 102, 255, 0.3);
+            --shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--navy);
+            color: var(--white);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .bg-blob-1 {
+            width: 600px;
+            height: 600px;
+            background: var(--cyan);
+            top: -200px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+
+        .bg-blob-2 {
+            width: 500px;
+            height: 500px;
+            background: var(--blue);
+            bottom: -150px;
+            left: -100px;
+            animation-delay: -7s;
+        }
+
+        .bg-blob-3 {
+            width: 400px;
+            height: 400px;
+            background: var(--cyan);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -14s;
+            opacity: 0.15;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -50px) scale(1.1); }
+            50% { transform: translate(-30px, 30px) scale(0.9); }
+            75% { transform: translate(30px, 50px) scale(1.05); }
+        }
+
+        /* Grid Pattern Overlay */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background-image: 
+                linear-gradient(rgba(0, 229, 204, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 229, 204, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 18px;
+            color: var(--navy);
+            box-shadow: var(--shadow-cyan);
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-name {
+            font-size: 20px;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+
+        .logo-tagline {
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--gray-400);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .header-badge {
+            background: rgba(0, 229, 204, 0.1);
+            border: 1px solid rgba(0, 229, 204, 0.3);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--cyan);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--cyan);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        /* Hero Section */
+        .hero {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 0;
+        }
+
+        .hero-badge {
+            background: rgba(0, 102, 255, 0.15);
+            border: 1px solid rgba(0, 102, 255, 0.3);
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--cyan-light);
+            margin-bottom: 32px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-badge svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .hero-title {
+            font-size: clamp(36px, 6vw, 64px);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            max-width: 800px;
+        }
+
+        .hero-title .gradient-text {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(16px, 2.5vw, 20px);
+            font-weight: 400;
+            color: var(--gray-400);
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 48px;
+        }
+
+        /* CTA Button */
+        .cta-button {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 48px;
+            background: var(--gradient-primary);
+            color: var(--navy);
+            font-size: 18px;
+            font-weight: 700;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-cyan);
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 60px rgba(0, 229, 204, 0.5);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:active {
+            transform: translateY(-1px);
+        }
+
+        .cta-button svg {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover svg {
+            transform: translateX(4px);
+        }
+
+        /* Stats */
+        .stats {
+            display: flex;
+            gap: 48px;
+            margin-top: 64px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--gray-400);
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        /* Packages Section */
+        .packages-section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .section-title {
+            font-size: clamp(28px, 4vw, 40px);
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .section-title .gradient-text {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            font-size: 16px;
+            color: var(--gray-400);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Package Cards */
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+
+        .package-card {
+            background: var(--gradient-card);
+            border: 1px solid rgba(0, 229, 204, 0.1);
+            border-radius: 24px;
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .package-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .package-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 229, 204, 0.3);
+            box-shadow: var(--shadow-card);
+        }
+
+        .package-card:hover::before {
+            opacity: 1;
+        }
+
+        .package-card.featured {
+            border-color: rgba(0, 229, 204, 0.4);
+            background: linear-gradient(145deg, rgba(0, 229, 204, 0.05) 0%, rgba(0, 102, 255, 0.05) 100%);
+        }
+
+        .package-card.featured::before {
+            opacity: 1;
+        }
+
+        .package-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--gradient-primary);
+            color: var(--navy);
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .package-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(0, 229, 204, 0.1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .package-icon svg {
+            width: 28px;
+            height: 28px;
+            color: var(--cyan);
+        }
+
+        .package-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .package-speed {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            margin-bottom: 16px;
+        }
+
+        .package-speed .speed {
+            font-size: 36px;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .package-speed .unit {
+            font-size: 14px;
+            color: var(--gray-400);
+            font-weight: 500;
+        }
+
+        .package-features {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+
+        .package-features li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 14px;
+            color: var(--gray-400);
+        }
+
+        .package-features li svg {
+            width: 18px;
+            height: 18px;
+            color: var(--cyan);
+            flex-shrink: 0;
+        }
+
+        .package-price {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .package-price .currency {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-400);
+        }
+
+        .package-price .amount {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--white);
+        }
+
+        .package-price .period {
+            font-size: 14px;
+            color: var(--gray-400);
+        }
+
+        /* Footer CTA */
+        .footer-cta {
+            text-align: center;
+            padding: 60px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-cta-text {
+            font-size: 18px;
+            color: var(--gray-400);
+            margin-bottom: 24px;
+        }
+
+        .footer-cta-text strong {
+            color: var(--white);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 32px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-text {
+            font-size: 13px;
+            color: var(--gray-600);
+        }
+
+        .footer-text a {
+            color: var(--cyan);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-badge {
+                display: none;
+            }
+
+            .hero {
+                padding: 40px 0;
+            }
+
+            .stats {
+                gap: 32px;
+            }
+
+            .stat-number {
+                font-size: 24px;
+            }
+
+            .packages-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-button {
+                padding: 16px 36px;
+                font-size: 16px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; opacity: 0; }
+        .delay-2 { animation-delay: 0.2s; opacity: 0; }
+        .delay-3 { animation-delay: 0.3s; opacity: 0; }
+        .delay-4 { animation-delay: 0.4s; opacity: 0; }
+        .delay-5 { animation-delay: 0.5s; opacity: 0; }
+    </style>
+</head>
+<body>
+    <!-- Background -->
+    <div class="bg-wrapper">
+        <div class="bg-blob bg-blob-1"></div>
+        <div class="bg-blob bg-blob-2"></div>
+        <div class="bg-blob bg-blob-3"></div>
+    </div>
+    <div class="grid-overlay"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header animate-in">
+            <div class="logo">
+                <div class="logo-icon">S</div>
+                <div class="logo-text">
+                    <span class="logo-name">SATAK</span>
+                    <span class="logo-tagline">Konek Terus</span>
+                </div>
+            </div>
+            <div class="header-badge">
+                <span class="dot"></span>
+                Sistem Online
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-badge animate-in delay-1">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                </svg>
+                Internet Cepat & Terpercaya
+            </div>
+            
+            <h1 class="hero-title animate-in delay-2">
+                Kelola Keuangan Jadi <br>
+                <span class="gradient-text">Lebih Mudah</span>
+            </h1>
+            
+            <p class="hero-subtitle animate-in delay-3">
+                Platform billing internet modern untuk mengelola pembayaran, 
+                paket, dan pelanggan dalam satu tempat yang terintegrasi.
+            </p>
+
+            <a href="login.html" class="cta-button animate-in delay-4">
+                Masuk
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+
+            <div class="stats animate-in delay-5">
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Pelanggan Aktif</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Uptime Server</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Packages Section -->
+        <section class="packages-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    Paket Internet <span class="gradient-text">Pilihan</span>
+                </h2>
+                <p class="section-subtitle">
+                    Pilih paket yang sesuai dengan kebutuhan internet Anda
+                </p>
+            </div>
+
+            <div class="packages-grid">
+                <!-- Package 1 -->
+                <div class="package-card">
+                    <div class="package-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+                            <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+                            <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+                            <circle cx="12" cy="20" r="1"/>
+                        </svg>
+                    </div>
+                    <h3 class="package-name">Home Basic</h3>
+                    <div class="package-speed">
+                        <span class="speed">20</span>
+                        <span class="unit">Mbps</span>
+                    </div>
+                    <ul class="package-features">
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M20 6L9 17l-5-5"/>
+                            </svg>
+                            Unlimited FUP
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M20 6L9 17l-5-5"/>
+                            </svg>
+                            Free Installasi
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M20 6L9 17l-5-5"/>
+                            </svg>
+                            Support 24/7
+                        </li>
+                    </ul>
+                    <div class="package-price">
+                        <span class="currency">Rp</span>
+                        <span class="amount">150K</span>
+                        <span class="period">/bulan</span>
+                    </div>
+                </div>
+
+                <!-- Package 2 (Featured) -->
+                <div class="package-card featured">
+                    <div class="package-badge">Populer</div>
+                    <div class="package-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                        </svg>
+                    </div>
+                    <h3 class="package-name">Home Pro</h3>
+                    <div class="package-speed">
+                        <span class="speed">50</span>
+                        <span class="unit">Mbps</span>
+                    </div>
+                    <ul class="package-features">
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M20 6L9 17l-5-5"/>
+                            </svg>
+                            Unlimited FUP
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M20 6L9 17l-5-5"/>
+                            </svg>
+                            Free Installasi
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M20 6L9 17l-5-5"/>
+                            </svg>
+                            Free Router WiFi 6
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M20 6L9 17l-5-5"/>
+                            </svg>
+                            Support Prioritas 24/7
+                        </li>
+                    </ul>
+                    <div class="package-price">
+                        <span class="currency">Rp</span>
+                        <span class="amount">250K</span>
+                        <span class="period">/bulan</span>
+                    </div>
+                </div>
+
+                <!-- Package 3 -->
+                <div class="package-card">
+                    <div class="package-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/>
+                            <path d="M8 21h8M12 17v4"/>
+                        </svg>
+                    </div>
+                    <h3 class="package-name">Business</h3>
+                    <div class="package-speed">
+                        <span class="speed">100</span>
+                        <span class="unit">Mbps</span>
+                    </div>
+                    <ul class="package-features">
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M20 6L9 17l-5-5"/>
+                            </svg>
+                            Unlimited FUP
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M20 6L9 17l-5-5"/>
+                            </svg>
+                            IP Static
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M20 6L9 17l-5-5"/>
+                            </svg>
+                            SLA 99.9%
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M20 6L9 17l-5-5"/>
+                            </svg>
+                            Support Dedicated 24/7
+                        </li>
+                    </ul>
+                    <div class="package-price">
+                        <span class="currency">Rp</span>
+                        <span class="amount">500K</span>
+                        <span class="period">/bulan</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer CTA -->
+        <section class="footer-cta">
+            <p class="footer-cta-text">
+                Sudah punya akun? <strong>Masuk sekarang</strong> untuk mengelola billing Anda
+            </p>
+            <a href="login.html" class="cta-button">
+                Masuk ke Dashboard
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p class="footer-text">
+                &copy; 2026 <a href="#">SATAK</a> - Konek Terus. All rights reserved.
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

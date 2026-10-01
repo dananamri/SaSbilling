@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masuk - SATAK</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cyan: #00E5CC;
+            --cyan-light: #4DFFF0;
+            --blue: #0066FF;
+            --blue-dark: #0047B3;
+            --navy: #0A1628;
+            --navy-light: #132240;
+            --white: #FFFFFF;
+            --gray-100: #F0F4F8;
+            --gray-200: #E2E8F0;
+            --gray-400: #94A3B8;
+            --gray-600: #475569;
+            --gradient-primary: linear-gradient(135deg, #00E5CC 0%, #0066FF 100%);
+            --gradient-card: linear-gradient(145deg, #0A1628 0%, #132240 100%);
+            --shadow-cyan: 0 0 40px rgba(0, 229, 204, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--navy);
+            color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        /* Background */
+        .bg-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .bg-blob-1 {
+            width: 600px;
+            height: 600px;
+            background: var(--cyan);
+            top: -200px;
+            right: -100px;
+        }
+
+        .bg-blob-2 {
+            width: 500px;
+            height: 500px;
+            background: var(--blue);
+            bottom: -150px;
+            left: -100px;
+            animation-delay: -7s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -50px) scale(1.1); }
+            50% { transform: translate(-30px, 30px) scale(0.9); }
+            75% { transform: translate(30px, 50px) scale(1.05); }
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background-image: 
+                linear-gradient(rgba(0, 229, 204, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 229, 204, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        /* Login Container */
+        .login-container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 440px;
+            padding: 24px;
+        }
+
+        .login-card {
+            background: var(--gradient-card);
+            border: 1px solid rgba(0, 229, 204, 0.15);
+            border-radius: 24px;
+            padding: 48px 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Logo */
+        .login-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .login-logo-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--gradient-primary);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 24px;
+            color: var(--navy);
+            box-shadow: var(--shadow-cyan);
+            margin-bottom: 16px;
+        }
+
+        .login-logo-name {
+            font-size: 24px;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+
+        .login-logo-tagline {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--gray-400);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-200);
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--white);
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-input::placeholder {
+            color: var(--gray-600);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--cyan);
+            background: rgba(0, 229, 204, 0.05);
+            box-shadow: 0 0 0 3px rgba(0, 229, 204, 0.1);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--gray-400);
+            cursor: pointer;
+        }
+
+        .form-checkbox input {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--cyan);
+        }
+
+        .form-forgot {
+            font-size: 13px;
+            color: var(--cyan);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .form-forgot:hover {
+            text-decoration: underline;
+        }
+
+        /* Button */
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            background: var(--gradient-primary);
+            color: var(--navy);
+            font-size: 16px;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-cyan);
+            font-family: inherit;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 60px rgba(0, 229, 204, 0.5);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .divider-text {
+            font-size: 12px;
+            color: var(--gray-600);
+        }
+
+        /* Back Link */
+        .back-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 24px;
+            font-size: 14px;
+            color: var(--gray-400);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: var(--cyan);
+        }
+
+        .back-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 32px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-wrapper">
+        <div class="bg-blob bg-blob-1"></div>
+        <div class="bg-blob bg-blob-2"></div>
+    </div>
+    <div class="grid-overlay"></div>
+
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-logo">
+                <div class="login-logo-icon">S</div>
+                <span class="login-logo-name">SATAK</span>
+                <span class="login-logo-tagline">Konek Terus</span>
+            </div>
+
+            <form>
+                <div class="form-group">
+                    <label class="form-label">Email atau Username</label>
+                    <input type="text" class="form-input" placeholder="Masukkan email atau username">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" placeholder="Masukkan password">
+                </div>
+
+                <div class="form-options">
+                    <label class="form-checkbox">
+                        <input type="checkbox">
+                        Ingat saya
+                    </label>
+                    <a href="#" class="form-forgot">Lupa Password?</a>
+                </div>
+
+                <button type="submit" class="btn-login">Masuk</button>
+            </form>
+
+            <div class="divider">
+                <div class="divider-line"></div>
+                <span class="divider-text">atau</span>
+                <div class="divider-line"></div>
+            </div>
+
+            <a href="index.html" class="back-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Kembali ke Beranda
+            </a>
+        </div>
+    </div>
+</body>
+</html>
