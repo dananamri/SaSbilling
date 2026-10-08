@@ -64,6 +64,7 @@
                     Masuk Pelanggan
                 </a>
             </div>
+        </section>
 
         <!-- Packages Section -->
         <section class="py-20">
@@ -134,11 +135,11 @@
         </section>
 
         <!-- Footer CTA -->
-        <section class="text-center py-16 border-t border-white/5">
-            <p class="text-lg text-slate-400 mb-6">
-                Sudah punya akun? <strong class="text-white">Masuk sekarang</strong> untuk mengelola billing Anda
+        <section class="text-center py-16 border-t border-gray-100">
+            <p class="text-lg text-gray-500 mb-6">
+                Sudah punya akun? <strong class="text-gray-900">Masuk sekarang</strong> untuk mengelola billing Anda
             </p>
-            <a href="{{ route('login') }}" class="inline-flex items-center gap-3 px-12 py-4.5 bg-gradient-to-r from-[#00E5CC] to-[#0066FF] text-[#0A1628] text-lg font-bold rounded-2xl transition-all duration-300 shadow-[0_0_40px_rgba(0,229,204,0.3)] hover:-translate-y-1 hover:shadow-[0_0_60px_rgba(0,229,204,0.5)]">
+            <a href="{{ route('login') }}" class="inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-[#00E5CC] to-[#0066FF] text-white text-lg font-bold rounded-2xl transition-all duration-300 shadow-[0_0_40px_rgba(0,229,204,0.3)] hover:-translate-y-1 hover:shadow-[0_0_60px_rgba(0,229,204,0.5)]">
                 Masuk ke Dashboard
                 <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -147,9 +148,9 @@
         </section>
 
         <!-- Footer -->
-        <footer class="text-center py-8 border-t border-white/5">
-            <p class="text-[13px] text-slate-600">
-                &copy; 2026 <a href="{{ route('home') }}" class="text-[#00E5CC] hover:underline">SATAK</a> - Konek Terus. All rights reserved.
+        <footer class="text-center py-8 border-t border-gray-100">
+            <p class="text-[13px] text-gray-400">
+                &copy; {{ date('Y') }} <a href="{{ route('home') }}" class="text-[#0066FF] hover:underline font-medium">SATAK</a> - Konek Terus. All rights reserved.
             </p>
         </footer>
     </div>
