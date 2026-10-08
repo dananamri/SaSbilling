@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\Package;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 class CustomerController extends Controller
@@ -37,15 +38,18 @@ class CustomerController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'username' => 'required|string|max:50|unique:customers,username',
             'phone' => 'required|string|max:20|unique:customers,phone',
             'email' => 'nullable|email|max:255',
             'address' => 'nullable|string',
             'package_id' => 'required|exists:packages,id',
             'billing_day' => 'required|integer|min:1|max:28',
             'joined_at' => 'nullable|date',
+            'password' => 'required|string|min:6|confirmed',
         ]);
 
         $validated['status'] = CustomerStatus::Active;
+        $validated['password'] = Hash::make($validated['password']);
 
         Customer::create($validated);
 
@@ -70,13 +74,21 @@ class CustomerController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'username' => 'required|string|max:50|unique:customers,username,'.$customer->id,
             'phone' => 'required|string|max:20|unique:customers,phone,'.$customer->id,
             'email' => 'nullable|email|max:255',
             'address' => 'nullable|string',
             'package_id' => 'required|exists:packages,id',
             'billing_day' => 'required|integer|min:1|max:28',
             'joined_at' => 'nullable|date',
+            'password' => 'nullable|string|min:6|confirmed',
         ]);
+
+        if (! empty($validated['password'])) {
+            $validated['password'] = Hash::make($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
 
         $customer->update($validated);
 

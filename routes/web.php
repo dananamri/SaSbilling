@@ -14,9 +14,16 @@ use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Customer\Auth\LoginController as CustomerLoginController;
+use App\Http\Controllers\Customer\ConnectionController as CustomerConnectionController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
 use App\Http\Controllers\Customer\InvoiceController as CustomerInvoiceController;
+use App\Http\Controllers\Customer\NotificationController as CustomerNotificationController;
+use App\Http\Controllers\Customer\PackageController as CustomerPackageController;
 use App\Http\Controllers\Customer\PaymentController as CustomerPaymentController;
+use App\Http\Controllers\Customer\ProfileController as CustomerProfileController;
+use App\Http\Controllers\Customer\SettingsController as CustomerSettingsController;
+use App\Http\Controllers\Customer\TicketController as CustomerTicketController;
+use App\Http\Controllers\Customer\UsageController as CustomerUsageController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,33 +52,33 @@ Route::prefix('customer')->name('customer.')->group(function () {
         Route::get('/payments/{payment}/receipt', [CustomerPaymentController::class, 'downloadReceipt'])->name('payments.receipt');
 
         // Paket Saya
-        Route::get('/packages', [Customer\PackageController::class, 'index'])->name('packages');
+        Route::get('/packages', [CustomerPackageController::class, 'index'])->name('packages');
 
         // Status Koneksi
-        Route::get('/connection', [Customer\ConnectionController::class, 'index'])->name('connection');
+        Route::get('/connection', [CustomerConnectionController::class, 'index'])->name('connection');
 
         // Pemakaian
-        Route::get('/usage', [Customer\UsageController::class, 'index'])->name('usage');
+        Route::get('/usage', [CustomerUsageController::class, 'index'])->name('usage');
 
         // Pengaduan / Ticket
-        Route::get('/tickets', [Customer\TicketController::class, 'index'])->name('tickets');
-        Route::get('/tickets/create', [Customer\TicketController::class, 'create'])->name('tickets.create');
-        Route::post('/tickets', [Customer\TicketController::class, 'store'])->name('tickets.store');
-        Route::get('/tickets/{ticket}', [Customer\TicketController::class, 'show'])->name('tickets.show');
+        Route::get('/tickets', [CustomerTicketController::class, 'index'])->name('tickets');
+        Route::get('/tickets/create', [CustomerTicketController::class, 'create'])->name('tickets.create');
+        Route::post('/tickets', [CustomerTicketController::class, 'store'])->name('tickets.store');
+        Route::get('/tickets/{ticket}', [CustomerTicketController::class, 'show'])->name('tickets.show');
 
         // Notifikasi
-        Route::get('/notifications', [Customer\NotificationController::class, 'index'])->name('notifications');
-        Route::post('/notifications/{notification}/read', [Customer\NotificationController::class, 'markAsRead'])->name('notifications.read');
-        Route::post('/notifications/read-all', [Customer\NotificationController::class, 'markAllAsRead'])->name('notifications.read-all');
+        Route::get('/notifications', [CustomerNotificationController::class, 'index'])->name('notifications');
+        Route::post('/notifications/{notification}/read', [CustomerNotificationController::class, 'markAsRead'])->name('notifications.read');
+        Route::post('/notifications/read-all', [CustomerNotificationController::class, 'markAllAsRead'])->name('notifications.read-all');
 
         // Profil
-        Route::get('/profile', [Customer\ProfileController::class, 'index'])->name('profile');
-        Route::put('/profile', [Customer\ProfileController::class, 'update'])->name('profile.update');
-        Route::put('/profile/password', [Customer\ProfileController::class, 'updatePassword'])->name('profile.password');
+        Route::get('/profile', [CustomerProfileController::class, 'index'])->name('profile');
+        Route::put('/profile', [CustomerProfileController::class, 'update'])->name('profile.update');
+        Route::put('/profile/password', [CustomerProfileController::class, 'updatePassword'])->name('profile.password');
 
         // Pengaturan
-        Route::get('/settings', [Customer\SettingsController::class, 'index'])->name('settings');
-        Route::put('/settings/notifications', [Customer\SettingsController::class, 'updateNotificationSettings'])->name('settings.notifications');
+        Route::get('/settings', [CustomerSettingsController::class, 'index'])->name('settings');
+        Route::put('/settings/notifications', [CustomerSettingsController::class, 'updateNotificationSettings'])->name('settings.notifications');
     });
 });
 
@@ -105,6 +112,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         Route::get('rekap', [HotspotVoucherController::class, 'rekap'])->name('rekap.index');
         Route::resource('profiles', HotspotProfileController::class)->except(['show']);
         Route::get('vouchers', [HotspotVoucherController::class, 'index'])->name('vouchers.index');
+        Route::get('vouchers/print-all', [HotspotVoucherController::class, 'printAll'])->name('vouchers.print-all');
         Route::get('vouchers/create', [HotspotVoucherController::class, 'create'])->name('vouchers.create');
         Route::post('vouchers', [HotspotVoucherController::class, 'store'])->name('vouchers.store');
         Route::delete('vouchers/{voucher}', [HotspotVoucherController::class, 'destroy'])->name('vouchers.destroy');

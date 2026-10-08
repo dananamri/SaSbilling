@@ -17,6 +17,7 @@ class PaymentFactory extends Factory
             'invoice_id' => Invoice::factory(),
             'amount' => fake()->randomElement([150000, 250000, 500000]),
             'method' => fake()->randomElement(PaymentMethod::cases()),
+            'status' => 'success',
             'reference' => fake()->optional()->numerify('TRX########'),
             'paid_by' => fake()->name(),
             'notes' => fake()->optional()->sentence(),

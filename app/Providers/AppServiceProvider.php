@@ -9,15 +9,22 @@ use App\Models\WhatsAppNotification;
 use App\Policies\InvoicePolicy;
 use App\Policies\PaymentPolicy;
 use App\Policies\TicketPolicy;
+use App\Policies\WhatsAppNotificationPolicy;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+    /**
+     * The policy mappings for the application.
+     *
+     * @var array<class-string, class-string>
+     */
     protected $policies = [
         Invoice::class => InvoicePolicy::class,
         Payment::class => PaymentPolicy::class,
         Ticket::class => TicketPolicy::class,
-        WhatsAppNotification::class => TicketPolicy::class,
+        WhatsAppNotification::class => WhatsAppNotificationPolicy::class,
     ];
 
     /**
@@ -33,6 +40,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        foreach ($this->policies as $model => $policy) {
+            Gate::policy($model, $policy);
+        }
     }
 }

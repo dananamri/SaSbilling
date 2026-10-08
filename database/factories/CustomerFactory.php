@@ -6,6 +6,7 @@ use App\Enums\CustomerStatus;
 use App\Models\Customer;
 use App\Models\Package;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerFactory extends Factory
 {
@@ -15,6 +16,7 @@ class CustomerFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            'username' => fake()->unique()->userName(),
             'phone' => '08'.fake()->numerify('##########'),
             'email' => fake()->safeEmail(),
             'address' => fake()->address(),
@@ -22,6 +24,7 @@ class CustomerFactory extends Factory
             'status' => CustomerStatus::Active,
             'billing_day' => fake()->numberBetween(1, 28),
             'joined_at' => fake()->dateTimeBetween('-1 year', 'now'),
+            'password' => Hash::make('password'),
         ];
     }
 

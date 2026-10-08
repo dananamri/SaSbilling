@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Customer extends Model implements AuthenticatableContract
 {
-    use HasFactory, Authenticatable;
+    use Authenticatable, HasFactory;
 
     protected $fillable = [
         'name',
@@ -25,6 +25,8 @@ class Customer extends Model implements AuthenticatableContract
         'billing_day',
         'joined_at',
         'password',
+        'email_notification',
+        'whatsapp_notification',
     ];
 
     protected function casts(): array
@@ -33,6 +35,8 @@ class Customer extends Model implements AuthenticatableContract
             'status' => CustomerStatus::class,
             'billing_day' => 'integer',
             'joined_at' => 'date',
+            'email_notification' => 'boolean',
+            'whatsapp_notification' => 'boolean',
         ];
     }
 
@@ -64,9 +68,8 @@ class Customer extends Model implements AuthenticatableContract
 
     public function totalOutstanding(): float
     {
-        return (float) $this->unpaidInvoices()->sum('amount')
-            - (float) $this->unpaidInvoices()->withSum('payments', 'amount')->get()
-                ->sum('payments_sum_amount');
+        return (float) $this->unpaidInvoices()->get()
+            ->sum(fn (Invoice $invoice) => $invoice->remaining());
     }
 
     public function daysOverdue(): int

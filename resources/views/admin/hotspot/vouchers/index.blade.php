@@ -19,7 +19,13 @@
                 </select>
                 <button type="submit" class="bg-slate-600 text-white px-4 py-2 rounded text-sm">Filter</button>
             </form>
-            <a href="{{ route('admin.hotspot.vouchers.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700">+ Buat Voucher</a>
+            <div class="flex items-center space-x-2">
+                <a href="{{ route('admin.hotspot.vouchers.print-all', request()->query()) }}" target="_blank" class="bg-emerald-600 text-white px-4 py-2 rounded text-sm hover:bg-emerald-700 flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+                    Cetak Semua Voucher
+                </a>
+                <a href="{{ route('admin.hotspot.vouchers.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700">+ Buat Voucher</a>
+            </div>
         </div>
 
         <div class="overflow-x-auto">

@@ -26,6 +26,7 @@ class PackageController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'type' => 'required|string|in:PPoE,Hotspot',
             'speed' => 'nullable|string|max:50',
             'price' => 'required|numeric|min:0',
             'description' => 'nullable|string',
@@ -48,6 +49,7 @@ class PackageController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'type' => 'required|string|in:PPoE,Hotspot',
             'speed' => 'nullable|string|max:50',
             'price' => 'required|numeric|min:0',
             'description' => 'nullable|string',

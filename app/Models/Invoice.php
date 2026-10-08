@@ -17,6 +17,8 @@ class Invoice extends Model
         'customer_id',
         'period',
         'amount',
+        'late_fee',
+        'discount',
         'status',
         'due_date',
         'paid_at',
@@ -26,6 +28,8 @@ class Invoice extends Model
     {
         return [
             'amount' => 'decimal:2',
+            'late_fee' => 'decimal:2',
+            'discount' => 'decimal:2',
             'status' => InvoiceStatus::class,
             'due_date' => 'date',
             'paid_at' => 'datetime',
@@ -42,14 +46,22 @@ class Invoice extends Model
         return $this->hasMany(Payment::class);
     }
 
+    /**
+     * Total tagihan akhir setelah denda dan diskon.
+     */
+    public function totalDue(): float
+    {
+        return (float) $this->amount + (float) $this->late_fee - (float) $this->discount;
+    }
+
     public function totalPaid(): float
     {
-        return (float) $this->payments()->sum('amount');
+        return (float) $this->payments()->where('status', 'success')->sum('amount');
     }
 
     public function remaining(): float
     {
-        return max(0, (float) $this->amount - $this->totalPaid());
+        return max(0, $this->totalDue() - $this->totalPaid());
     }
 
     public function isFullyPaid(): bool

@@ -14,9 +14,23 @@
                     @error('name')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@endif
                 </div>
                 <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Username *</label>
+                    <input type="text" name="username" value="{{ old('username', $customer->username) }}" class="w-full border rounded px-3 py-2 text-sm @error('username') border-red-500 @endif">
+                    @error('username')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@endif
+                </div>
+                <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Telepon *</label>
                     <input type="text" name="phone" value="{{ old('phone', $customer->phone) }}" class="w-full border rounded px-3 py-2 text-sm @error('phone') border-red-500 @endif">
                     @error('phone')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@endif
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Password Baru (opsional)</label>
+                    <input type="password" name="password" placeholder="Kosongkan jika tidak diubah" class="w-full border rounded px-3 py-2 text-sm @error('password') border-red-500 @endif">
+                    @error('password')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@endif
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Konfirmasi Password Baru</label>
+                    <input type="password" name="password_confirmation" class="w-full border rounded px-3 py-2 text-sm">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>

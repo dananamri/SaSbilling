@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Payment;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
@@ -38,7 +39,11 @@ class DashboardController extends Controller
             ->limit(10)
             ->get();
 
-        $revenueByMonth = Payment::selectRaw('strftime("%Y-%m", created_at) as month, SUM(amount) as total')
+        $dateFormat = DB::getDriverName() === 'sqlite'
+            ? 'strftime("%Y-%m", created_at)'
+            : 'DATE_FORMAT(created_at, "%Y-%m")';
+
+        $revenueByMonth = Payment::selectRaw("{$dateFormat} as month, SUM(amount) as total")
             ->where('created_at', '>=', now()->subMonths(6))
             ->groupBy('month')
             ->orderBy('month')

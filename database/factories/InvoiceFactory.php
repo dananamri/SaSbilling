@@ -20,6 +20,8 @@ class InvoiceFactory extends Factory
             'customer_id' => Customer::factory(),
             'period' => $dueDate->format('Y-m'),
             'amount' => fake()->randomElement([150000, 250000, 500000]),
+            'late_fee' => 0,
+            'discount' => 0,
             'status' => InvoiceStatus::Unpaid,
             'due_date' => $dueDate,
             'paid_at' => null,

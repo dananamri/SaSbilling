@@ -13,6 +13,7 @@ class PackageFactory extends Factory
     {
         return [
             'name' => fake()->words(2, true),
+            'type' => fake()->randomElement(['PPoE', 'Hotspot']),
             'speed' => fake()->randomElement(['10 Mbps', '20 Mbps', '50 Mbps', '100 Mbps']),
             'price' => fake()->randomElement([100000, 150000, 250000, 500000]),
             'description' => fake()->sentence(),

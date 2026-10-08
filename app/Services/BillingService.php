@@ -74,12 +74,13 @@ class BillingService
     public function updateInvoiceStatus(Invoice $invoice): void
     {
         $totalPaid = $invoice->totalPaid();
+        $totalDue = $invoice->totalDue();
 
         if ($totalPaid <= 0) {
             $invoice->status = $invoice->due_date->isPast()
                 ? InvoiceStatus::Overdue
                 : InvoiceStatus::Unpaid;
-        } elseif ($totalPaid < $invoice->amount) {
+        } elseif ($totalPaid < $totalDue) {
             $invoice->status = InvoiceStatus::Partial;
         } else {
             $invoice->status = InvoiceStatus::Paid;

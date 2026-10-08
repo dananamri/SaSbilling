@@ -18,7 +18,8 @@ class DashboardController extends Controller
             ->get()
             ->sum(fn (Invoice $invoice) => $invoice->remaining());
 
-        $totalPaid = Payment::whereHas('invoice', fn ($q) => $q->where('customer_id', $customer->id))
+        $totalPaid = Payment::where('status', 'success')
+            ->whereHas('invoice', fn ($q) => $q->where('customer_id', $customer->id))
             ->sum('amount');
 
         $currentInvoice = Invoice::where('customer_id', $customer->id)
