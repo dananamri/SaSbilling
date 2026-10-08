@@ -11,6 +11,7 @@ use App\Policies\PaymentPolicy;
 use App\Policies\TicketPolicy;
 use App\Policies\WhatsAppNotificationPolicy;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -40,6 +41,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (app()->environment('production') || str_starts_with((string) config('app.url'), 'https://') || request()->header('x-forwarded-proto') === 'https') {
+            URL::forceScheme('https');
+        }
+
         foreach ($this->policies as $model => $policy) {
             Gate::policy($model, $policy);
         }
