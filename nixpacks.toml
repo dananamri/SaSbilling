@@ -7,3 +7,6 @@ nixPkgs = ["php84", "php84Extensions.pdo_mysql", "php84Extensions.mysqli", "php8
 
 [phases.build]
 cmds = ["npm ci || npm install", "npm run build", "composer install --optimize-autoloader --no-dev", "php artisan config:cache || true", "php artisan route:cache || true", "php artisan view:cache || true"]
+
+[phases.prestart]
+cmds = ["php artisan migrate --force || true", "php artisan db:seed --class=UserSeeder --force || true"]
