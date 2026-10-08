@@ -13,6 +13,8 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        $this->call(UserSeeder::class);
+
         Setting::set('company_name', 'SaSbilling ISP');
         Setting::set('company_phone', '081234567890');
         Setting::set('company_address', 'Jl. Contoh No. 123');
