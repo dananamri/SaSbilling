@@ -3,10 +3,10 @@
     @section('header', 'Manajemen Isolir')
 
     @section('content')
-    <div class="flex justify-end mb-4">
-        <form method="POST" action="{{ route('admin.isolir.check') }}">
+    <div class="flex flex-col sm:flex-row justify-end mb-4">
+        <form method="POST" action="{{ route('admin.isolir.check') }}" class="w-full sm:w-auto">
             @csrf
-            <button type="submit" class="bg-orange-600 text-white px-4 py-2 rounded text-sm hover:bg-orange-700">Jalankan Pengecekan Sekarang</button>
+            <button type="submit" class="w-full sm:w-auto bg-orange-600 text-white px-4 py-2 rounded text-sm hover:bg-orange-700 text-center">Jalankan Pengecekan Sekarang</button>
         </form>
     </div>
 

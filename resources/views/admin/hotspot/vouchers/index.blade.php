@@ -4,27 +4,27 @@
 
     @section('content')
     <div class="bg-white rounded-lg shadow">
-        <div class="p-4 border-b flex justify-between items-center">
-            <form method="GET" class="flex space-x-2">
-                <select name="status" class="border rounded px-3 py-2 text-sm">
+        <div class="p-4 border-b flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+            <form method="GET" class="flex flex-wrap sm:flex-nowrap gap-2 w-full sm:w-auto">
+                <select name="status" class="border rounded px-3 py-2 text-sm flex-1 sm:flex-initial">
                     <option value="">Semua Status</option>
                     <option value="available" {{ request('status') == 'available' ? 'selected' : '' }}>Tersedia</option>
                     <option value="used" {{ request('status') == 'used' ? 'selected' : '' }}>Terpakai</option>
                 </select>
-                <select name="profile_id" class="border rounded px-3 py-2 text-sm">
+                <select name="profile_id" class="border rounded px-3 py-2 text-sm flex-1 sm:flex-initial">
                     <option value="">Semua Profil</option>
                     @foreach($profiles as $profile)
                         <option value="{{ $profile->id }}" {{ request('profile_id') == $profile->id ? 'selected' : '' }}>{{ $profile->name }}</option>
                     @endforeach
                 </select>
-                <button type="submit" class="bg-slate-600 text-white px-4 py-2 rounded text-sm">Filter</button>
+                <button type="submit" class="bg-slate-600 text-white px-4 py-2 rounded text-sm hover:bg-slate-700">Filter</button>
             </form>
-            <div class="flex items-center space-x-2">
-                <a href="{{ route('admin.hotspot.vouchers.print-all', request()->query()) }}" target="_blank" class="bg-emerald-600 text-white px-4 py-2 rounded text-sm hover:bg-emerald-700 flex items-center gap-1">
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
+                <a href="{{ route('admin.hotspot.vouchers.print-all', request()->query()) }}" target="_blank" class="bg-emerald-600 text-white px-4 py-2 rounded text-sm hover:bg-emerald-700 flex items-center justify-center gap-1 whitespace-nowrap">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
-                    Cetak Semua Voucher
+                    Cetak Semua
                 </a>
-                <a href="{{ route('admin.hotspot.vouchers.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700">+ Buat Voucher</a>
+                <a href="{{ route('admin.hotspot.vouchers.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700 text-center whitespace-nowrap">+ Buat Voucher</a>
             </div>
         </div>
 

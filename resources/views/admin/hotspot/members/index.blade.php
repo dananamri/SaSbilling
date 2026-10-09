@@ -4,18 +4,18 @@
 
     @section('content')
     <div class="bg-white rounded-lg shadow">
-        <div class="p-4 border-b flex justify-between items-center">
-            <form method="GET" class="flex space-x-2">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari username/nama..." class="border rounded px-3 py-2 text-sm">
+        <div class="p-4 border-b flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+            <form method="GET" class="flex flex-wrap sm:flex-nowrap gap-2 w-full sm:w-auto">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari username/nama..." class="border rounded px-3 py-2 text-sm flex-1 sm:flex-initial">
                 <select name="status" class="border rounded px-3 py-2 text-sm">
                     <option value="">Semua Status</option>
                     <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Aktif</option>
                     <option value="suspended" {{ request('status') == 'suspended' ? 'selected' : '' }}>Suspended</option>
                     <option value="expired" {{ request('status') == 'expired' ? 'selected' : '' }}>Expired</option>
                 </select>
-                <button type="submit" class="bg-slate-600 text-white px-4 py-2 rounded text-sm">Filter</button>
+                <button type="submit" class="bg-slate-600 text-white px-4 py-2 rounded text-sm hover:bg-slate-700">Filter</button>
             </form>
-            <a href="{{ route('admin.hotspot.members.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700">+ Tambah Member</a>
+            <a href="{{ route('admin.hotspot.members.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700 text-center whitespace-nowrap">+ Tambah Member</a>
         </div>
 
         <div class="overflow-x-auto">

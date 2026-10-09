@@ -40,7 +40,7 @@
             </div>
 
             <div class="mt-6">
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700">Simpan Pengaturan</button>
+                <button type="submit" class="w-full sm:w-auto bg-blue-600 text-white px-4 py-2.5 rounded text-sm hover:bg-blue-700 font-medium">Simpan Pengaturan</button>
             </div>
         </form>
     </div>

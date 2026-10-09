@@ -4,9 +4,9 @@
 
     @section('content')
     <div class="bg-white rounded-lg shadow">
-        <div class="p-4 border-b flex justify-between items-center">
-            <h3 class="font-semibold">Daftar Paket Internet</h3>
-            <a href="{{ route('admin.packages.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700">+ Tambah Paket</a>
+        <div class="p-4 border-b flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+            <h3 class="font-semibold text-gray-800">Daftar Paket Internet</h3>
+            <a href="{{ route('admin.packages.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700 text-center whitespace-nowrap">+ Tambah Paket</a>
         </div>
 
         <div class="overflow-x-auto">

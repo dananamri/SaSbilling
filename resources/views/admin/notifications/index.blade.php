@@ -3,9 +3,9 @@
     @section('header', 'Notifikasi WhatsApp')
 
     @section('content')
-    <div class="flex justify-between mb-4">
-        <form method="GET" class="flex space-x-2">
-            <select name="type" class="border rounded px-3 py-2 text-sm">
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-4">
+        <form method="GET" class="flex flex-wrap sm:flex-nowrap gap-2 w-full sm:w-auto">
+            <select name="type" class="border rounded px-3 py-2 text-sm flex-1 sm:flex-initial">
                 <option value="">Semua Tipe</option>
                 <option value="reminder" {{ request('type') == 'reminder' ? 'selected' : '' }}>Pengingat</option>
                 <option value="info" {{ request('type') == 'info' ? 'selected' : '' }}>Info</option>
@@ -13,20 +13,20 @@
                 <option value="isolated" {{ request('type') == 'isolated' ? 'selected' : '' }}>Isolir</option>
                 <option value="reopened" {{ request('type') == 'reopened' ? 'selected' : '' }}>Buka Isolir</option>
             </select>
-            <select name="status" class="border rounded px-3 py-2 text-sm">
+            <select name="status" class="border rounded px-3 py-2 text-sm flex-1 sm:flex-initial">
                 <option value="">Semua Status</option>
                 <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
                 <option value="sent" {{ request('status') == 'sent' ? 'selected' : '' }}>Terkirim</option>
                 <option value="failed" {{ request('status') == 'failed' ? 'selected' : '' }}>Gagal</option>
             </select>
-            <button type="submit" class="bg-slate-600 text-white px-4 py-2 rounded text-sm">Filter</button>
+            <button type="submit" class="bg-slate-600 text-white px-4 py-2 rounded text-sm hover:bg-slate-700">Filter</button>
         </form>
-        <div class="flex space-x-2">
-            <form method="POST" action="{{ route('admin.notifications.send-pending') }}">
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
+            <form method="POST" action="{{ route('admin.notifications.send-pending') }}" class="w-full sm:w-auto">
                 @csrf
-                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700">Kirim Pending</button>
+                <button type="submit" class="w-full sm:w-auto bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700 text-center whitespace-nowrap">Kirim Pending</button>
             </form>
-            <a href="{{ route('admin.notifications.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700">+ Kirim Notifikasi</a>
+            <a href="{{ route('admin.notifications.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700 text-center whitespace-nowrap">+ Kirim Notifikasi</a>
         </div>
     </div>
 

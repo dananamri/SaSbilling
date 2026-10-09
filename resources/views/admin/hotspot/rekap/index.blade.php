@@ -3,22 +3,22 @@
     @section('header', 'Rekap Hotspot')
 
     @section('content')
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div class="bg-white rounded-lg shadow p-4">
-            <p class="text-sm text-gray-500">Total Profil</p>
-            <p class="text-2xl font-bold text-blue-600">{{ $totalProfiles }}</p>
+            <p class="text-xs sm:text-sm text-gray-500">Total Profil</p>
+            <p class="text-xl sm:text-2xl font-bold text-blue-600">{{ $totalProfiles }}</p>
         </div>
         <div class="bg-white rounded-lg shadow p-4">
-            <p class="text-sm text-gray-500">Total Voucher</p>
-            <p class="text-2xl font-bold text-green-600">{{ $totalVouchers }}</p>
+            <p class="text-xs sm:text-sm text-gray-500">Total Voucher</p>
+            <p class="text-xl sm:text-2xl font-bold text-green-600">{{ $totalVouchers }}</p>
         </div>
         <div class="bg-white rounded-lg shadow p-4">
-            <p class="text-sm text-gray-500">Voucher Terpakai</p>
-            <p class="text-2xl font-bold text-orange-600">{{ $usedVouchers }}</p>
+            <p class="text-xs sm:text-sm text-gray-500">Voucher Terpakai</p>
+            <p class="text-xl sm:text-2xl font-bold text-orange-600">{{ $usedVouchers }}</p>
         </div>
         <div class="bg-white rounded-lg shadow p-4">
-            <p class="text-sm text-gray-500">Total Member</p>
-            <p class="text-2xl font-bold text-purple-600">{{ $totalMembers }}</p>
+            <p class="text-xs sm:text-sm text-gray-500">Total Member</p>
+            <p class="text-xl sm:text-2xl font-bold text-purple-600">{{ $totalMembers }}</p>
         </div>
     </div>
 

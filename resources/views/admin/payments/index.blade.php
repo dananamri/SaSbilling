@@ -4,9 +4,9 @@
 
     @section('content')
     <div class="bg-white rounded-lg shadow">
-        <div class="p-4 border-b flex justify-between items-center">
-            <form method="GET" class="flex space-x-2">
-                <select name="method" class="border rounded px-3 py-2 text-sm">
+        <div class="p-4 border-b flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+            <form method="GET" class="flex flex-wrap sm:flex-nowrap gap-2 w-full sm:w-auto">
+                <select name="method" class="border rounded px-3 py-2 text-sm flex-1 sm:flex-initial">
                     <option value="">Semua Metode</option>
                     <option value="cash" {{ request('method') == 'cash' ? 'selected' : '' }}>Tunai</option>
                     <option value="transfer_bca" {{ request('method') == 'transfer_bca' ? 'selected' : '' }}>Transfer BCA</option>
@@ -18,9 +18,9 @@
                     <option value="gopay" {{ request('method') == 'gopay' ? 'selected' : '' }}>GoPay</option>
                     <option value="ovo" {{ request('method') == 'ovo' ? 'selected' : '' }}>OVO</option>
                 </select>
-                <button type="submit" class="bg-slate-600 text-white px-4 py-2 rounded text-sm">Filter</button>
+                <button type="submit" class="bg-slate-600 text-white px-4 py-2 rounded text-sm hover:bg-slate-700">Filter</button>
             </form>
-            <a href="{{ route('admin.payments.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700">+ Catat Pembayaran</a>
+            <a href="{{ route('admin.payments.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700 text-center whitespace-nowrap">+ Catat Pembayaran</a>
         </div>
 
         <div class="overflow-x-auto">

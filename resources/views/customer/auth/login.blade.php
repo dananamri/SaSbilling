@@ -18,11 +18,11 @@
         <div class="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:60px_60px]"></div>
     </div>
 
-    <div class="relative z-10 w-full max-w-[440px] px-6">
-        <div class="bg-transparent backdrop-blur-xl border border-gray-200/50 rounded-3xl p-12 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.1)]">
+    <div class="relative z-10 w-full max-w-[440px] px-4 sm:px-6 my-6">
+        <div class="bg-white/80 sm:bg-transparent backdrop-blur-xl border border-gray-200/50 rounded-2xl sm:rounded-3xl p-6 sm:p-12 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.1)]">
             <!-- Logo -->
-            <div class="flex flex-col items-center mb-8">
-                <img src="{{ asset('images/satak_logo.jpeg') }}" alt="SATAK" class="h-24 w-auto mb-4 rounded-xl border-2 border-gray-200">
+            <div class="flex flex-col items-center mb-6 sm:mb-8">
+                <img src="{{ asset('images/satak_logo.jpeg') }}" alt="SATAK" class="h-20 sm:h-24 w-auto mb-4 rounded-xl border-2 border-gray-200">
             </div>
 
             <!-- Form -->
