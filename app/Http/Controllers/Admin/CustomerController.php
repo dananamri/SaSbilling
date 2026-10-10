@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\CustomerStatus;
+use App\Enums\InvoiceStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Package;
@@ -93,6 +94,39 @@ class CustomerController extends Controller
         $customer->update($validated);
 
         return redirect()->route('admin.customers.index')->with('success', 'Pelanggan berhasil diperbarui.');
+    }
+
+    public function approve(Customer $customer): RedirectResponse
+    {
+        $customer->update([
+            'status' => CustomerStatus::Active,
+            'joined_at' => now(),
+            'billing_day' => now()->day,
+        ]);
+
+        // Aktifkan invoice dan payment pending
+        $unpaidInvoices = $customer->invoices()->where('status', '!=', InvoiceStatus::Paid)->get();
+        foreach ($unpaidInvoices as $invoice) {
+            $invoice->update([
+                'status' => InvoiceStatus::Paid,
+                'paid_at' => now(),
+            ]);
+
+            $invoice->payments()->update([
+                'status' => 'success',
+            ]);
+        }
+
+        return back()->with('success', "Akun pelanggan {$customer->name} berhasil disetujui dan diaktifkan.");
+    }
+
+    public function reject(Customer $customer): RedirectResponse
+    {
+        $customer->update([
+            'status' => CustomerStatus::Inactive,
+        ]);
+
+        return back()->with('warning', "Pendaftaran pelanggan {$customer->name} ditolak / dinonaktifkan.");
     }
 
     public function destroy(Customer $customer): RedirectResponse

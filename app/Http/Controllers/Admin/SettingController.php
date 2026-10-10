@@ -25,6 +25,11 @@ class SettingController extends Controller
             'company_phone' => 'required|string|max:20',
             'company_address' => 'nullable|string',
             'reminder_days_before' => 'required|integer|min:0|max:30',
+            'admin_whatsapp' => 'nullable|string|max:20',
+            'payment_bank_name' => 'nullable|string|max:50',
+            'payment_bank_account' => 'nullable|string|max:50',
+            'payment_bank_holder' => 'nullable|string|max:100',
+            'payment_qris_info' => 'nullable|string|max:255',
         ]);
 
         foreach ($validated as $key => $value) {

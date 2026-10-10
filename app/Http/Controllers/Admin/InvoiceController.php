@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\CustomerStatus;
 use App\Enums\InvoiceStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
@@ -38,7 +39,7 @@ class InvoiceController extends Controller
 
     public function create(): View
     {
-        $customers = Customer::where('status', '!=', 'inactive')->get();
+        $customers = Customer::where('status', CustomerStatus::Active)->get();
 
         return view('admin.invoices.create', compact('customers'));
     }

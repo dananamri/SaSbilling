@@ -39,9 +39,10 @@ Route::prefix('customer')->name('customer.')->group(function () {
     Route::post('/login', [CustomerLoginController::class, 'login'])->name('login.post');
     Route::get('/register', [CustomerLoginController::class, 'showRegisterForm'])->name('register');
     Route::post('/register', [CustomerLoginController::class, 'register'])->name('register.post');
+    Route::get('/pending-approval', [CustomerLoginController::class, 'pendingApproval'])->name('pending-approval');
     Route::post('/logout', [CustomerLoginController::class, 'logout'])->name('logout');
 
-    Route::middleware(['auth:customer'])->group(function () {
+    Route::middleware(['auth:customer', 'customer.approved'])->group(function () {
         Route::get('/dashboard', [CustomerDashboardController::class, 'index'])->name('dashboard');
         Route::get('/invoices', [CustomerInvoiceController::class, 'index'])->name('invoices');
         Route::get('/invoices/{invoice}', [CustomerInvoiceController::class, 'show'])->name('invoices.show');
@@ -86,6 +87,8 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('customers', CustomerController::class);
+    Route::post('/customers/{customer}/approve', [CustomerController::class, 'approve'])->name('customers.approve');
+    Route::post('/customers/{customer}/reject', [CustomerController::class, 'reject'])->name('customers.reject');
     Route::resource('packages', PackageController::class);
     Route::resource('invoices', InvoiceController::class)->except(['edit', 'update']);
     Route::resource('payments', PaymentController::class)->except(['edit', 'update', 'destroy']);

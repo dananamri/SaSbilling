@@ -22,6 +22,33 @@
                 </div>
             </div>
 
+            <h3 class="text-base sm:text-lg font-semibold mt-6 mb-4">Pengaturan Pembayaran & WhatsApp</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nomor WhatsApp Admin (Konfirmasi Pembayaran)</label>
+                    <input type="text" name="admin_whatsapp" value="{{ old('admin_whatsapp', $settings['admin_whatsapp'] ?? '') }}" placeholder="Contoh: 6281234567890" class="w-full border rounded px-3 py-2 text-sm">
+                    <p class="text-xs text-gray-500 mt-1">Gunakan kode negara tanpa tanda plus atau nol di depan (misal: 628xxx)</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Bank / E-Wallet</label>
+                        <input type="text" name="payment_bank_name" value="{{ old('payment_bank_name', $settings['payment_bank_name'] ?? 'BCA') }}" placeholder="Contoh: BCA / Mandiri / Dana" class="w-full border rounded px-3 py-2 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nomor Rekening / Akun</label>
+                        <input type="text" name="payment_bank_account" value="{{ old('payment_bank_account', $settings['payment_bank_account'] ?? '') }}" placeholder="Contoh: 1234567890" class="w-full border rounded px-3 py-2 text-sm">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Atas Nama Rekening</label>
+                    <input type="text" name="payment_bank_holder" value="{{ old('payment_bank_holder', $settings['payment_bank_holder'] ?? '') }}" placeholder="Contoh: PT SATAK Konek Terus" class="w-full border rounded px-3 py-2 text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Info QRIS / Catatan Pembayaran</label>
+                    <input type="text" name="payment_qris_info" value="{{ old('payment_qris_info', $settings['payment_qris_info'] ?? '') }}" placeholder="Contoh: Scan QRIS di outlet / upload bukti via WA" class="w-full border rounded px-3 py-2 text-sm">
+                </div>
+            </div>
+
             <h3 class="text-base sm:text-lg font-semibold mt-6 mb-4">Pengaturan Isolir</h3>
             <div class="space-y-4">
                 <div>

@@ -73,16 +73,29 @@
                     </div>
                 </div>
 
-                <div class="mb-5">
-                    <label class="block text-xs font-semibold text-gray-700 mb-1">Paket *</label>
-                    <select name="package_id" class="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-sm transition-all duration-300 focus:outline-none focus:border-[#00E5CC] focus:bg-white">
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">Paket Internet *</label>
+                    <select name="package_id" id="package_select" required class="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-sm transition-all duration-300 focus:outline-none focus:border-[#00E5CC] focus:bg-white">
                         <option value="">Pilih Paket</option>
                         @foreach(\App\Models\Package::where('is_active', true)->get() as $package)
-                            <option value="{{ $package->id }}" {{ old('package_id') == $package->id ? 'selected' : '' }}>
+                            <option value="{{ $package->id }}" data-price="{{ $package->price }}" {{ old('package_id') == $package->id ? 'selected' : '' }}>
                                 {{ $package->name }} - Rp {{ number_format($package->price, 0, ',', '.') }}
                             </option>
                         @endforeach
                     </select>
+                </div>
+
+                <div class="mb-5">
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">Metode Pembayaran *</label>
+                    <select name="payment_method" required class="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 text-sm transition-all duration-300 focus:outline-none focus:border-[#00E5CC] focus:bg-white">
+                        <option value="">Pilih Metode Pembayaran</option>
+                        @foreach(\App\Enums\PaymentMethod::cases() as $method)
+                            <option value="{{ $method->value }}" {{ old('payment_method') == $method->value ? 'selected' : '' }}>
+                                {{ $method->label() }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <p class="text-[11px] text-gray-400 mt-1">Pembayaran akan diverifikasi admin sebelum akun aktif.</p>
                 </div>
 
                 <button type="submit" class="w-full py-4 bg-gradient-to-r from-[#00E5CC] to-[#0066FF] text-white text-base font-bold rounded-xl transition-all duration-300 shadow-[0_0_40px_rgba(0,229,204,0.2)] hover:-translate-y-0.5 hover:shadow-[0_0_60px_rgba(0,229,204,0.3)] active:translate-y-0">

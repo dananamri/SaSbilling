@@ -23,6 +23,16 @@
                 <div class="flex justify-between"><dt class="text-gray-500">Bergabung</dt><dd>{{ $customer->joined_at?->format('d M Y') ?? '-' }}</dd></div>
             </dl>
             <div class="mt-4 flex flex-col sm:flex-row gap-2 sm:space-x-2">
+                @if($customer->status->value === 'pending')
+                    <form method="POST" action="{{ route('admin.customers.approve', $customer) }}" class="inline">
+                        @csrf
+                        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded text-xs hover:bg-green-700 font-semibold w-full" onclick="return confirm('Setujui pembayaran dan aktifkan akun?')">Verifikasi Pembayaran & Setujui</button>
+                    </form>
+                    <form method="POST" action="{{ route('admin.customers.reject', $customer) }}" class="inline">
+                        @csrf
+                        <button type="submit" class="bg-amber-600 text-white px-4 py-2 rounded text-xs hover:bg-amber-700 w-full" onclick="return confirm('Tolak pendaftaran akun ini?')">Tolak</button>
+                    </form>
+                @endif
                 <a href="{{ route('admin.customers.edit', $customer) }}" class="bg-blue-600 text-white px-3 py-1 rounded text-xs hover:bg-blue-700 text-center">Edit</a>
                 <a href="{{ route('admin.customers.index') }}" class="bg-gray-300 text-gray-700 px-3 py-1 rounded text-xs hover:bg-gray-400 text-center">Kembali</a>
             </div>

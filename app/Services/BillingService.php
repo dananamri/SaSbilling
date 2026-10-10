@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\CustomerStatus;
 use App\Enums\InvoiceStatus;
 use App\Models\Customer;
 use App\Models\Invoice;
@@ -17,7 +18,7 @@ class BillingService
         $dueDate = $date->copy()->addDays(7);
 
         $customers = Customer::where('billing_day', $billingDay)
-            ->where('status', '!=', 'inactive')
+            ->where('status', CustomerStatus::Active)
             ->whereDoesntHave('invoices', fn ($q) => $q->where('period', $period))
             ->get();
 

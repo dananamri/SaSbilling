@@ -45,9 +45,12 @@ class AdminTest extends TestCase
 
         $response = $this->post('/admin/customers', [
             'name' => 'Test Customer',
+            'username' => 'testcustomer',
             'phone' => '081234567890',
             'package_id' => $package->id,
             'billing_day' => 15,
+            'password' => 'secret123',
+            'password_confirmation' => 'secret123',
         ]);
 
         $response->assertRedirect('/admin/customers');
