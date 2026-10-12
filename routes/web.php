@@ -148,7 +148,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::resource('cash-deposits', CashDepositController::class)->only(['index', 'create', 'store']);
     Route::post('/cash-deposits/{cashDeposit}/approve', [CashDepositController::class, 'approve'])->name('cash-deposits.approve');
     Route::post('/cash-deposits/{cashDeposit}/reject', [CashDepositController::class, 'reject'])->name('cash-deposits.reject');
-    Route::resource('payment-tickets', PaymentTicketController::class)->only(['index', 'show']);
+    Route::resource('payment-tickets', PaymentTicketController::class)->parameters(['payment-tickets' => 'paymentTicket'])->only(['index', 'show']);
     Route::post('/payment-tickets/{paymentTicket}/approve', [PaymentTicketController::class, 'approve'])->name('payment-tickets.approve');
     Route::post('/payment-tickets/{paymentTicket}/reject', [PaymentTicketController::class, 'reject'])->name('payment-tickets.reject');
 

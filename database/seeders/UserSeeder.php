@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -15,6 +16,8 @@ class UserSeeder extends Seeder
                 'name' => 'Administrator',
                 'email' => 'admin@satak.local',
                 'password' => 'Admin123!',
+                'role' => UserRole::SuperAdmin,
+                'is_active' => true,
             ]
         );
     }
