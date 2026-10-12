@@ -14,12 +14,27 @@ class Ticket extends Model
     protected $fillable = [
         'ticket_number',
         'customer_id',
+        'assigned_to',
         'category',
         'title',
         'description',
         'priority',
         'status',
+        'sla_due_at',
+        'resolved_at',
+        'resolution_notes',
+        'proof_photo',
     ];
+
+    protected $casts = [
+        'sla_due_at' => 'datetime',
+        'resolved_at' => 'datetime',
+    ];
+
+    public function technician(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'assigned_to');
+    }
 
     public function customer(): BelongsTo
     {

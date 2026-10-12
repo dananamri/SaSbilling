@@ -42,7 +42,7 @@ class ProfileController extends Controller
 
         $customer = auth('customer')->user();
 
-        if (!Hash::check($request->current_password, $customer->password)) {
+        if (! Hash::check($request->current_password, $customer->password)) {
             return back()->withErrors(['current_password' => 'Password saat ini salah.']);
         }
 

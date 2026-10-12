@@ -38,7 +38,7 @@ class PaymentController extends Controller
     {
         $this->authorize('view', $payment);
 
-        $pdf = new Dompdf();
+        $pdf = new Dompdf;
         $pdf->loadHtml(view('customer.payments.receipt', compact('payment'))->render());
         $pdf->setPaper('A4', 'portrait');
         $pdf->render();

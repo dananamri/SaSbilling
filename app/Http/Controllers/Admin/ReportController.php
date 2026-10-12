@@ -81,7 +81,7 @@ class ReportController extends Controller
             ->orderBy('due_date')
             ->get();
 
-        $pdf = new Dompdf();
+        $pdf = new Dompdf;
         $pdf->loadHtml(view('admin.reports.pdf', compact(
             'startDate',
             'endDate',

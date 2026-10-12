@@ -35,7 +35,7 @@ class InvoiceController extends Controller
     {
         $this->authorize('view', $invoice);
 
-        $pdf = new Dompdf();
+        $pdf = new Dompdf;
         $pdf->loadHtml(view('customer.invoices.pdf', compact('invoice'))->render());
         $pdf->setPaper('A4', 'portrait');
         $pdf->render();

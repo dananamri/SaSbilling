@@ -1,17 +1,33 @@
 <?php
 
+use App\Http\Controllers\Admin\ActivityLogController;
+use App\Http\Controllers\Admin\AttendanceController;
+use App\Http\Controllers\Admin\BackupController;
+use App\Http\Controllers\Admin\BandwidthController;
+use App\Http\Controllers\Admin\BookEntryController;
+use App\Http\Controllers\Admin\CashDepositController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\GacsController;
+use App\Http\Controllers\Admin\HelpdeskTicketController;
 use App\Http\Controllers\Admin\HotspotMemberController;
 use App\Http\Controllers\Admin\HotspotProfileController;
 use App\Http\Controllers\Admin\HotspotVoucherController;
 use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\Admin\IsolirController;
+use App\Http\Controllers\Admin\MapController;
 use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\Admin\OltController;
 use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\PaymentTicketController;
+use App\Http\Controllers\Admin\PppoeController;
+use App\Http\Controllers\Admin\RadiusController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\RouterController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\TenantController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Customer\Auth\LoginController as CustomerLoginController;
 use App\Http\Controllers\Customer\ConnectionController as CustomerConnectionController;
@@ -122,4 +138,57 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         Route::get('vouchers/{voucher}/print', [HotspotVoucherController::class, 'print'])->name('vouchers.print');
         Route::resource('members', HotspotMemberController::class)->except(['show']);
     });
+
+    // Manajemen / Users & Activity
+    Route::resource('users', UserController::class)->except(['show']);
+    Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('activity-logs.index');
+
+    // Keuangan ISP
+    Route::resource('book-entries', BookEntryController::class)->only(['index', 'create', 'store', 'destroy']);
+    Route::resource('cash-deposits', CashDepositController::class)->only(['index', 'create', 'store']);
+    Route::post('/cash-deposits/{cashDeposit}/approve', [CashDepositController::class, 'approve'])->name('cash-deposits.approve');
+    Route::post('/cash-deposits/{cashDeposit}/reject', [CashDepositController::class, 'reject'])->name('cash-deposits.reject');
+    Route::resource('payment-tickets', PaymentTicketController::class)->only(['index', 'show']);
+    Route::post('/payment-tickets/{paymentTicket}/approve', [PaymentTicketController::class, 'approve'])->name('payment-tickets.approve');
+    Route::post('/payment-tickets/{paymentTicket}/reject', [PaymentTicketController::class, 'reject'])->name('payment-tickets.reject');
+
+    // Network - MikroTik
+    Route::resource('routers', RouterController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+    Route::post('/routers/{router}/ping', [RouterController::class, 'ping'])->name('routers.ping');
+    Route::get('/pppoe', [PppoeController::class, 'index'])->name('pppoe.index');
+    Route::get('/pppoe/create', [PppoeController::class, 'create'])->name('pppoe.create');
+    Route::post('/pppoe', [PppoeController::class, 'store'])->name('pppoe.store');
+    Route::delete('/pppoe/{pppoeSecret}', [PppoeController::class, 'destroy'])->name('pppoe.destroy');
+    Route::get('/pppoe-profiles', [PppoeController::class, 'profiles'])->name('pppoe.profiles');
+    Route::post('/pppoe-profiles', [PppoeController::class, 'storeProfile'])->name('pppoe.profiles.store');
+    Route::get('/bandwidth', [BandwidthController::class, 'index'])->name('bandwidth.index');
+    Route::get('/bandwidth/{router}/chart', [BandwidthController::class, 'chart'])->name('bandwidth.chart');
+    Route::post('/bandwidth/{router}/poll', [BandwidthController::class, 'poll'])->name('bandwidth.poll');
+
+    // Advanced Network
+    Route::resource('olts', OltController::class)->only(['index', 'create', 'store']);
+    Route::post('/olts/{olt}/poll', [OltController::class, 'poll'])->name('olts.poll');
+    Route::get('/gacs', [GacsController::class, 'index'])->name('gacs.index');
+    Route::get('/radius', [RadiusController::class, 'index'])->name('radius.index');
+    Route::post('/radius', [RadiusController::class, 'store'])->name('radius.store');
+
+    // GIS & Tenant
+    Route::get('/map', [MapController::class, 'index'])->name('map.index');
+    Route::get('/map/geojson', [MapController::class, 'geojson'])->name('map.geojson');
+    Route::resource('tenants', TenantController::class)->only(['index', 'create', 'store', 'destroy']);
+
+    // Operasional SDM
+    Route::get('/tickets', [HelpdeskTicketController::class, 'index'])->name('tickets.index');
+    Route::get('/tickets/{ticket}', [HelpdeskTicketController::class, 'show'])->name('tickets.show');
+    Route::post('/tickets/{ticket}/assign', [HelpdeskTicketController::class, 'assign'])->name('tickets.assign');
+    Route::post('/tickets/{ticket}/resolve', [HelpdeskTicketController::class, 'resolve'])->name('tickets.resolve');
+    Route::get('/attendances', [AttendanceController::class, 'index'])->name('attendances.index');
+    Route::post('/attendances', [AttendanceController::class, 'store'])->name('attendances.store');
+    Route::post('/attendances/clock-in', [AttendanceController::class, 'clockIn'])->name('attendances.clock-in');
+    Route::post('/attendances/clock-out', [AttendanceController::class, 'clockOut'])->name('attendances.clock-out');
+
+    // Backup Sistem
+    Route::get('/backup', [BackupController::class, 'index'])->name('backup.index');
+    Route::post('/backup/run', [BackupController::class, 'run'])->name('backup.run');
+    Route::get('/backup/download/{filename}', [BackupController::class, 'download'])->name('backup.download');
 });
