@@ -99,9 +99,11 @@
                     </tbody>
                 </table>
             </div>
-            <div class="p-4 border-t border-gray-100 bg-gray-50">
-                {{ $requests->links() }}
-            </div>
+            @if(method_exists($requests, 'links') && $requests->hasPages())
+                <div class="p-4 border-t border-gray-100 bg-gray-50">
+                    {{ $requests->links() }}
+                </div>
+            @endif
         @endif
     </div>
 

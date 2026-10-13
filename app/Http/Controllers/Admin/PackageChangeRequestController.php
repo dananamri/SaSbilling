@@ -8,6 +8,7 @@ use App\Models\PackageChangeRequest;
 use App\Services\WhatsAppGatewayService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\View\View;
 
 class PackageChangeRequestController extends Controller
@@ -20,16 +21,25 @@ class PackageChangeRequestController extends Controller
     {
         $status = $request->query('status', 'pending');
 
-        $requests = PackageChangeRequest::with(['customer', 'currentPackage', 'targetPackage', 'approver'])
-            ->when($status !== 'all', fn ($q) => $q->where('status', $status))
-            ->latest()
-            ->paginate(15);
+        $requests = collect();
+        $counts = ['pending' => 0, 'approved' => 0, 'rejected' => 0];
 
-        $counts = [
-            'pending' => PackageChangeRequest::where('status', 'pending')->count(),
-            'approved' => PackageChangeRequest::where('status', 'approved')->count(),
-            'rejected' => PackageChangeRequest::where('status', 'rejected')->count(),
-        ];
+        if (Schema::hasTable('package_change_requests')) {
+            try {
+                $requests = PackageChangeRequest::with(['customer', 'currentPackage', 'targetPackage', 'approver'])
+                    ->when($status !== 'all', fn ($q) => $q->where('status', $status))
+                    ->latest()
+                    ->paginate(15);
+
+                $counts = [
+                    'pending' => PackageChangeRequest::where('status', 'pending')->count(),
+                    'approved' => PackageChangeRequest::where('status', 'approved')->count(),
+                    'rejected' => PackageChangeRequest::where('status', 'rejected')->count(),
+                ];
+            } catch (\Throwable $e) {
+                $requests = collect();
+            }
+        }
 
         return view('admin.package-change-requests.index', compact('requests', 'status', 'counts'));
     }
