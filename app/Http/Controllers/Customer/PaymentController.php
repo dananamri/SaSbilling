@@ -3,46 +3,56 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Invoice;
 use App\Models\Payment;
-use Dompdf\Dompdf;
-use Illuminate\Http\Request;
+use App\Models\PaymentTicket;
 use Illuminate\View\View;
 
 class PaymentController extends Controller
 {
-    public function index(Request $request): View
+    public function index(): View
     {
         $customer = auth('customer')->user();
 
+        // Tagihan yang perlu dibayar (unpaid, partial, overdue)
+        $unpaidInvoices = Invoice::where('customer_id', $customer->id)
+            ->whereIn('status', ['unpaid', 'partial', 'overdue'])
+            ->orderBy('due_date')
+            ->get();
+
+        // Tiket bukti bayar yang sedang pending verifikasi atau baru diajukan
+        $pendingTickets = PaymentTicket::where('customer_id', $customer->id)
+            ->with('invoice')
+            ->orderByDesc('created_at')
+            ->limit(5)
+            ->get();
+
+        // Riwayat pembayaran berhasil
         $payments = Payment::whereHas('invoice', fn ($q) => $q->where('customer_id', $customer->id))
             ->with('invoice')
-            ->when($request->status, fn ($q) => $q->where('status', $request->status))
-            ->when($request->date_from, fn ($q) => $q->whereDate('created_at', '>=', $request->date_from))
-            ->when($request->date_to, fn ($q) => $q->whereDate('created_at', '<=', $request->date_to))
             ->orderByDesc('created_at')
             ->paginate(10);
 
-        return view('customer.payments.index', compact('payments'));
+        return view('customer.payments.index', compact('customer', 'unpaidInvoices', 'pendingTickets', 'payments'));
     }
 
     public function show(Payment $payment): View
     {
-        $this->authorize('view', $payment);
+        $customer = auth('customer')->user();
+        abort_unless($payment->invoice->customer_id === $customer->id, 403);
 
-        $payment->load('invoice.customer');
+        $payment->load('invoice.package');
 
         return view('customer.payments.show', compact('payment'));
     }
 
     public function downloadReceipt(Payment $payment)
     {
-        $this->authorize('view', $payment);
+        $customer = auth('customer')->user();
+        abort_unless($payment->invoice->customer_id === $customer->id, 403);
 
-        $pdf = new Dompdf;
-        $pdf->loadHtml(view('customer.payments.receipt', compact('payment'))->render());
-        $pdf->setPaper('A4', 'portrait');
-        $pdf->render();
+        $payment->load('invoice.package', 'invoice.customer');
 
-        return $pdf->stream('bukti-pembayaran-'.$payment->id.'.pdf');
+        return view('customer.payments.receipt', compact('payment'));
     }
 }

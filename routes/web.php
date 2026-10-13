@@ -32,10 +32,12 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Customer\Auth\LoginController as CustomerLoginController;
 use App\Http\Controllers\Customer\ConnectionController as CustomerConnectionController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
+use App\Http\Controllers\Customer\HistoryController as CustomerHistoryController;
 use App\Http\Controllers\Customer\InvoiceController as CustomerInvoiceController;
 use App\Http\Controllers\Customer\NotificationController as CustomerNotificationController;
 use App\Http\Controllers\Customer\PackageController as CustomerPackageController;
 use App\Http\Controllers\Customer\PaymentController as CustomerPaymentController;
+use App\Http\Controllers\Customer\PaymentTicketController as CustomerPaymentTicketController;
 use App\Http\Controllers\Customer\ProfileController as CustomerProfileController;
 use App\Http\Controllers\Customer\SettingsController as CustomerSettingsController;
 use App\Http\Controllers\Customer\TicketController as CustomerTicketController;
@@ -60,6 +62,8 @@ Route::prefix('customer')->name('customer.')->group(function () {
 
     Route::middleware(['auth:customer', 'customer.approved'])->group(function () {
         Route::get('/dashboard', [CustomerDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/history', [CustomerHistoryController::class, 'index'])->name('history');
+        Route::post('/payment-tickets', [CustomerPaymentTicketController::class, 'store'])->name('payment-tickets.store');
         Route::get('/invoices', [CustomerInvoiceController::class, 'index'])->name('invoices');
         Route::get('/invoices/{invoice}', [CustomerInvoiceController::class, 'show'])->name('invoices.show');
         Route::get('/invoices/{invoice}/download', [CustomerInvoiceController::class, 'download'])->name('invoices.download');
