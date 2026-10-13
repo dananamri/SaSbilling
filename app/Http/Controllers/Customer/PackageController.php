@@ -7,6 +7,7 @@ use App\Models\Package;
 use App\Models\PackageChangeRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\View\View;
 
 class PackageController extends Controller
@@ -17,17 +18,28 @@ class PackageController extends Controller
         $currentPackage = $customer->package;
         $availablePackages = Package::where('is_active', true)->get();
 
-        $pendingRequest = PackageChangeRequest::where('customer_id', $customer->id)
-            ->where('status', 'pending')
-            ->with(['currentPackage', 'targetPackage'])
-            ->latest()
-            ->first();
+        $pendingRequest = null;
+        $historyRequests = collect();
 
-        $historyRequests = PackageChangeRequest::where('customer_id', $customer->id)
-            ->with(['currentPackage', 'targetPackage'])
-            ->latest()
-            ->limit(5)
-            ->get();
+        if (Schema::hasTable('package_change_requests')) {
+            try {
+                $pendingRequest = PackageChangeRequest::where('customer_id', $customer->id)
+                    ->where('status', 'pending')
+                    ->with(['currentPackage', 'targetPackage'])
+                    ->latest()
+                    ->first();
+
+                $historyRequests = PackageChangeRequest::where('customer_id', $customer->id)
+                    ->with(['currentPackage', 'targetPackage'])
+                    ->latest()
+                    ->limit(5)
+                    ->get();
+            } catch (\Throwable $e) {
+                // Graceful fallback if table is mid-migration
+                $pendingRequest = null;
+                $historyRequests = collect();
+            }
+        }
 
         return view('customer.packages.index', compact('customer', 'currentPackage', 'availablePackages', 'pendingRequest', 'historyRequests'));
     }
@@ -43,6 +55,10 @@ class PackageController extends Controller
 
         if ($customer->package_id == $validated['target_package_id']) {
             return back()->with('error', 'Anda sudah menggunakan paket ini.');
+        }
+
+        if (! Schema::hasTable('package_change_requests')) {
+            return back()->with('error', 'Fitur upgrade sedang dalam pemeliharaan (tabel belum siap). Silakan hubungi admin.');
         }
 
         $existingPending = PackageChangeRequest::where('customer_id', $customer->id)
