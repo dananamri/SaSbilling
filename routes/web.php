@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\IsolirController;
 use App\Http\Controllers\Admin\MapController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\OltController;
+use App\Http\Controllers\Admin\PackageChangeRequestController as AdminPackageChangeRequestController;
 use App\Http\Controllers\Admin\PackageController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\PaymentTicketController;
@@ -74,6 +75,7 @@ Route::prefix('customer')->name('customer.')->group(function () {
 
         // Paket Saya
         Route::get('/packages', [CustomerPackageController::class, 'index'])->name('packages');
+        Route::post('/packages/upgrade-request', [CustomerPackageController::class, 'requestUpgrade'])->name('packages.upgrade-request');
 
         // Status Koneksi
         Route::get('/connection', [CustomerConnectionController::class, 'index'])->name('connection');
@@ -110,6 +112,9 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::post('/customers/{customer}/approve', [CustomerController::class, 'approve'])->name('customers.approve');
     Route::post('/customers/{customer}/reject', [CustomerController::class, 'reject'])->name('customers.reject');
     Route::resource('packages', PackageController::class);
+    Route::get('/package-change-requests', [AdminPackageChangeRequestController::class, 'index'])->name('package-change-requests.index');
+    Route::post('/package-change-requests/{packageChangeRequest}/approve', [AdminPackageChangeRequestController::class, 'approve'])->name('package-change-requests.approve');
+    Route::post('/package-change-requests/{packageChangeRequest}/reject', [AdminPackageChangeRequestController::class, 'reject'])->name('package-change-requests.reject');
     Route::resource('invoices', InvoiceController::class)->except(['edit', 'update']);
     Route::resource('payments', PaymentController::class)->except(['edit', 'update', 'destroy']);
 

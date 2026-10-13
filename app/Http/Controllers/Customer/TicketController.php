@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ticket;
+use App\Services\WhatsAppGatewayService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -11,6 +12,10 @@ use Illuminate\View\View;
 
 class TicketController extends Controller
 {
+    public function __construct(
+        protected WhatsAppGatewayService $waGateway,
+    ) {}
+
     public function index(): View
     {
         $customer = auth('customer')->user();
@@ -38,7 +43,7 @@ class TicketController extends Controller
         $customer = auth('customer')->user();
 
         $ticket = Ticket::create([
-            'ticket_number' => 'TCK-'.strtoupper(Str::random(6)),
+            'ticket_number' => 'TCK-'.date('Ymd').'-'.strtoupper(Str::random(4)),
             'customer_id' => $customer->id,
             'category' => $validated['category'],
             'title' => $validated['title'],
@@ -47,15 +52,36 @@ class TicketController extends Controller
             'status' => 'open',
         ]);
 
-        return redirect()->route('customer.tickets.show', $ticket)->with('success', 'Pengaduan berhasil dibuat. Nomor tiket: '.$ticket->ticket_number);
+        // Format pesan notifikasi ke WhatsApp Admin (+6287863389320)
+        $categoryLabel = str_replace('_', ' ', ucwords($validated['category'], '_'));
+        $adminMessage = "🚨 *PENGADUAN GANGGUAN BARU* 🚨\n\n"
+            ."*No Tiket:* {$ticket->ticket_number}\n"
+            ."*Pelanggan:* {$customer->name} (ID: CUST-".str_pad((string) $customer->id, 4, '0', STR_PAD_LEFT).")\n"
+            ."*No HP:* {$customer->phone}\n"
+            ."*Kategori:* {$categoryLabel}\n"
+            .'*Prioritas:* '.strtoupper($validated['priority'])."\n"
+            ."*Judul:* {$validated['title']}\n"
+            ."*Deskripsi:* {$validated['description']}\n"
+            .'*Alamat:* '.($customer->address ?: '-')."\n"
+            .'*Waktu:* '.now()->format('d-m-Y H:i')." WIB\n\n"
+            .'Mohon segera ditindaklanjuti oleh tim teknis.';
+
+        $this->waGateway->sendToAdmin($adminMessage);
+
+        return redirect()->route('customer.tickets.show', $ticket)
+            ->with('success', 'Laporan gangguan berhasil dibuat dan diteruskan ke WhatsApp Admin. Nomor tiket: '.$ticket->ticket_number);
     }
 
     public function show(Ticket $ticket): View
     {
         $this->authorize('view', $ticket);
 
-        $ticket->load(['messages.user']);
+        $ticket->load(['messages.user', 'customer']);
 
-        return view('customer.tickets.show', compact('ticket'));
+        $adminPhone = $this->waGateway->getAdminPhone();
+        $waText = "Halo Admin SATAK, saya {$ticket->customer->name} ingin menanyakan progres tiket gangguan saya #{$ticket->ticket_number}: {$ticket->title}";
+        $directWaUrl = $this->waGateway->generateWaLink($adminPhone, $waText);
+
+        return view('customer.tickets.show', compact('ticket', 'directWaUrl', 'adminPhone'));
     }
 }
