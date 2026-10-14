@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 class LoginController extends Controller
@@ -23,20 +24,19 @@ class LoginController extends Controller
             'password' => 'required|string',
         ]);
 
-        try {
-            if (Auth::attempt($credentials, $request->boolean('remember'))) {
-                $request->session()->regenerate();
+        $loginField = filter_var($credentials['username'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-                return redirect()->intended(route('admin.dashboard'));
+        $user = User::where($loginField, $credentials['username'])->first();
+
+        if ($user && Hash::check($credentials['password'], $user->password)) {
+            if (isset($user->is_active) && ! $user->is_active) {
+                return back()->withErrors(['username' => 'Akun Anda dinonaktifkan.'])->onlyInput('username');
             }
-        } catch (\Throwable $e) {
-            Log::error('Login error: '.$e->getMessage(), [
-                'exception' => $e,
-            ]);
 
-            return back()->withErrors([
-                'username' => 'Gagal masuk: '.$e->getMessage(),
-            ])->onlyInput('username');
+            Auth::login($user, $request->boolean('remember'));
+            $request->session()->regenerate();
+
+            return redirect()->intended(route('admin.dashboard'));
         }
 
         return back()->withErrors([
