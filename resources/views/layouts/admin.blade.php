@@ -8,13 +8,13 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body class="bg-gray-50" x-data="{ sidebarOpen: false }">
+<body class="bg-gray-50 overflow-x-hidden" x-data="{ sidebarOpen: false }">
     <!-- Mobile Sidebar Overlay -->
-    <div x-show="sidebarOpen" class="fixed inset-0 z-40 bg-black/50 lg:hidden" @click="sidebarOpen = false" style="display: none;"></div>
+    <div x-show="sidebarOpen" class="fixed inset-0 z-[9998] bg-black/50 lg:hidden" @click="sidebarOpen = false" style="display: none;"></div>
 
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
-        <aside class="fixed lg:static inset-y-0 left-0 z-50 w-[85vw] max-w-[280px] lg:w-64 lg:max-w-none bg-white border-r border-gray-200 flex flex-col h-[100dvh] lg:h-screen max-h-[100dvh] lg:max-h-screen transform transition-transform duration-300 lg:transform-none"
+        <aside class="fixed lg:static inset-y-0 left-0 z-[9999] w-[85vw] max-w-[280px] lg:w-64 lg:max-w-none bg-white border-r border-gray-200 flex flex-col h-[100dvh] lg:h-screen max-h-[100dvh] lg:max-h-screen transform transition-transform duration-300 lg:transform-none"
                :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'">
             <div class="p-4 flex items-center justify-between border-b border-gray-100 shrink-0">
                 <div class="flex items-center space-x-3">

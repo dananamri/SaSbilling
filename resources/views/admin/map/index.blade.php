@@ -6,20 +6,28 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-<div class="bg-white rounded-lg shadow p-4">
+<style>
+    /* Keep Leaflet below mobile sidebar (sidebar is z-[9999]) */
+    .leaflet-pane { z-index: 400 !important; }
+    .leaflet-top, .leaflet-bottom { z-index: 500 !important; }
+    .leaflet-control { z-index: 500 !important; }
+</style>
+<div class="bg-white rounded-lg shadow p-3 sm:p-4 overflow-hidden">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-4 mb-4 border-b gap-3">
-        <div>
-            <h3 class="font-semibold text-gray-800">Visualisasi Geografis (GIS)</h3>
+        <div class="min-w-0">
+            <h3 class="font-semibold text-gray-800 text-sm sm:text-base">Visualisasi Geografis (GIS)</h3>
             <p class="text-xs text-gray-500">Titik lokasi rumah pelanggan dan box ODP jaringan fiber optik.</p>
         </div>
-        <div class="flex items-center gap-4 text-xs">
+        <div class="flex flex-wrap items-center gap-3 sm:gap-4 text-xs shrink-0">
             <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-blue-600 inline-block"></span> ODP</span>
             <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-green-500 inline-block"></span> Pelanggan Aktif</span>
             <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span> Pelanggan Terisolir</span>
         </div>
     </div>
 
-    <div id="map" class="w-full h-[600px] rounded-lg border"></div>
+    <div class="relative z-0 isolate overflow-hidden rounded-lg border">
+        <div id="map" class="w-full h-[62vh] min-h-[360px] max-h-[640px] sm:h-[520px] lg:h-[600px] rounded-lg"></div>
+    </div>
 </div>
 
 <script>

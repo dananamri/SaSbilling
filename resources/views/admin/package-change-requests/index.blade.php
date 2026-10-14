@@ -112,7 +112,7 @@
     <!-- Modal Penolakan (Alpine.js) -->
     <div x-data="{ open: false, requestId: '', requestNumber: '', customerName: '' }"
          @open-reject-modal.window="open = true; requestId = $event.detail.id; requestNumber = $event.detail.number; customerName = $event.detail.name;"
-         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+         class="fixed inset-0 z-[10000] flex items-center justify-center bg-black/60 p-4"
          style="display: none;"
          x-show="open" x-cloak>
         <div class="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 max-w-md w-full shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
