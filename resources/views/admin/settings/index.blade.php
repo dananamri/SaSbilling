@@ -25,9 +25,14 @@
             <h3 class="text-base sm:text-lg font-semibold mt-6 mb-4">Pengaturan Pembayaran & WhatsApp</h3>
             <div class="space-y-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Nomor WhatsApp Admin (Konfirmasi Pembayaran)</label>
-                    <input type="text" name="admin_whatsapp" value="{{ old('admin_whatsapp', $settings['admin_whatsapp'] ?? '') }}" placeholder="Contoh: 6281234567890" class="w-full border rounded px-3 py-2 text-sm">
-                    <p class="text-xs text-gray-500 mt-1">Gunakan kode negara tanpa tanda plus atau nol di depan (misal: 628xxx)</p>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nomor WhatsApp Admin (Penerima Notifikasi)</label>
+                    <input type="text" name="admin_whatsapp" value="{{ old('admin_whatsapp', $settings['admin_whatsapp'] ?? '+6287863389320') }}" placeholder="Contoh: +6287863389320" class="w-full border rounded px-3 py-2 text-sm">
+                    <p class="text-xs text-gray-500 mt-1">Nomor WhatsApp tujuan notifikasi tiket gangguan & upgrade paket.</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Fonnte API Token (Opsional)</label>
+                    <input type="text" name="fonnte_token" value="{{ old('fonnte_token', $settings['fonnte_token'] ?? '') }}" placeholder="Token API Fonnte untuk kirim WA real" class="w-full border rounded px-3 py-2 text-sm">
+                    <p class="text-xs text-gray-500 mt-1">Jika dikosongkan, notifikasi WA akan masuk ke application log.</p>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>

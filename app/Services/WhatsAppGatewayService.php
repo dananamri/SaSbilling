@@ -14,7 +14,9 @@ class WhatsAppGatewayService
 
     public function getAdminPhone(): string
     {
-        return (string) (Setting::get('admin_wa_phone') ?: config('services.whatsapp.admin_phone', self::DEFAULT_ADMIN_PHONE));
+        $phone = Setting::get('admin_wa_phone') ?: Setting::get('admin_whatsapp');
+
+        return (string) ($phone ?: config('services.whatsapp.admin_phone', self::DEFAULT_ADMIN_PHONE));
     }
 
     public function send(string $phone, string $message, ?int $customerId = null): WhatsAppNotification

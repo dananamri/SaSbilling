@@ -26,6 +26,8 @@ class SettingController extends Controller
             'company_address' => 'nullable|string',
             'reminder_days_before' => 'required|integer|min:0|max:30',
             'admin_whatsapp' => 'nullable|string|max:20',
+            'admin_wa_phone' => 'nullable|string|max:20',
+            'fonnte_token' => 'nullable|string|max:255',
             'payment_bank_name' => 'nullable|string|max:50',
             'payment_bank_account' => 'nullable|string|max:50',
             'payment_bank_holder' => 'nullable|string|max:100',
