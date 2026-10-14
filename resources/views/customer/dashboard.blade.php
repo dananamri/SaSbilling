@@ -5,7 +5,7 @@
     @section('content')
     <div class="space-y-6">
         <!-- Banner Sambutan & Status Akun -->
-        <div class="relative bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 rounded-3xl p-5 sm:p-7 text-white shadow-lg overflow-hidden">
+        <div class="relative bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 rounded-2xl sm:rounded-3xl p-4 sm:p-7 text-white shadow-lg overflow-hidden">
             <!-- Background Accent Circles -->
             <div class="absolute -right-8 -top-8 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
             <div class="absolute right-12 -bottom-10 w-36 h-36 bg-cyan-400/20 rounded-full blur-xl pointer-events-none"></div>
@@ -42,7 +42,7 @@
                             <p class="text-base font-bold">Rp {{ number_format($currentInvoice->remaining(), 0, ',', '.') }} <span class="text-xs font-normal text-blue-200">(Jatuh tempo {{ $currentInvoice->due_date->format('d M Y') }})</span></p>
                         </div>
                     </div>
-                    <a href="{{ route('customer.payments') }}" class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-white text-blue-700 text-xs font-extrabold hover:bg-blue-50 shadow transition whitespace-nowrap">
+                    <a href="{{ route('customer.payments') }}" class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-3 sm:py-2.5 rounded-xl bg-white text-blue-700 text-xs font-extrabold hover:bg-blue-50 shadow transition whitespace-nowrap text-center">
                         Bayar Sekarang &rarr;
                     </a>
                 </div>
