@@ -11,8 +11,8 @@
             <h2 class="text-lg sm:text-xl font-extrabold mt-1">Kelola Pembayaran Tagihan</h2>
             <p class="text-sm text-blue-100 mt-2">Bayar tepat waktu agar internet tetap lancar. Unggah bukti transfer dan kami verifikasi dalam 1x24 jam.</p>
             <div class="mt-4 flex flex-wrap gap-2">
-                <a href="{{ route('customer.history', ['tab' => 'invoices']) }}" class="bg-white text-blue-600 px-4 py-2 rounded-xl text-xs font-bold shadow hover:bg-blue-50 transition">Riwayat Tagihan</a>
-                <a href="{{ route('customer.invoices') }}" class="bg-white/20 text-white px-4 py-2 rounded-xl text-xs font-bold border border-white/20 hover:bg-white/30 transition">Semua Invoice</a>
+                <a href="{{ route('customer.history', ['tab' => 'invoices']) }}" class="flex-1 sm:flex-none text-center bg-white text-blue-600 px-4 py-2.5 rounded-xl text-xs font-bold shadow hover:bg-blue-50 transition">Riwayat Tagihan</a>
+                <a href="{{ route('customer.invoices') }}" class="flex-1 sm:flex-none text-center bg-white/20 text-white px-4 py-2.5 rounded-xl text-xs font-bold border border-white/20 hover:bg-white/30 transition">Semua Invoice</a>
             </div>
         </div>
 
@@ -62,7 +62,7 @@
                                 <p class="text-xs text-gray-500 mt-1">Periode {{ $invoice->period }} &bull; Jatuh tempo {{ $invoice->due_date->format('d M Y') }}</p>
                                 <p class="text-xs text-red-600 font-bold mt-1">Rp {{ number_format($invoice->remaining(), 0, ',', '.') }} • {{ ucfirst($invoice->status->value) }}</p>
                             </div>
-                            <a href="{{ route('customer.invoices.show', $invoice) }}" class="px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 transition text-center whitespace-nowrap">Lihat & Bayar</a>
+                            <a href="{{ route('customer.invoices.show', $invoice) }}" class="w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-bold bg-blue-600 text-white hover:bg-blue-700 transition text-center whitespace-nowrap min-h-[42px] flex items-center justify-center">Lihat & Bayar</a>
                         </div>
                     @endforeach
                 </div>
@@ -71,12 +71,12 @@
 
         <!-- Upload Bukti Transfer -->
         <div class="bg-white rounded-2xl border border-gray-200 p-5" x-data="{ open: false }">
-            <div class="flex items-center justify-between mb-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                 <div>
                     <h3 class="font-bold text-gray-900 text-sm">Konfirmasi Pembayaran (Upload Bukti Transfer)</h3>
                     <p class="text-xs text-gray-500 mt-1">Sudah transfer? Unggah bukti di sini agar admin segera verifikasi.</p>
                 </div>
-                <button @click="open = !open" class="bg-gray-900 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-black transition" x-text="open ? 'Tutup Form' : 'Unggah Bukti'"></button>
+                <button @click="open = !open" class="w-full sm:w-auto bg-gray-900 text-white px-5 py-2.5 rounded-xl text-xs font-bold hover:bg-black transition text-center min-h-[40px]" x-text="open ? 'Tutup Form' : 'Unggah Bukti'"></button>
             </div>
 
             <form x-show="open" action="{{ route('customer.payment-tickets.store') }}" method="POST" enctype="multipart/form-data" class="space-y-3 border-t border-gray-100 pt-4" style="display: none;">
