@@ -14,9 +14,9 @@
 
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
-        <aside class="fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 lg:transform-none"
+        <aside class="fixed lg:static inset-y-0 left-0 z-50 w-[85vw] max-w-[280px] lg:w-64 lg:max-w-none bg-white border-r border-gray-200 flex flex-col h-[100dvh] lg:h-screen max-h-[100dvh] lg:max-h-screen transform transition-transform duration-300 lg:transform-none"
                :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'">
-            <div class="p-4 flex items-center justify-between border-b border-gray-100">
+            <div class="p-4 flex items-center justify-between border-b border-gray-100 shrink-0">
                 <div class="flex items-center space-x-3">
                     <img src="{{ asset('images/satak_logo.jpeg') }}" alt="SATAK" class="h-10 w-auto rounded-lg border-2 border-gray-200">
                     <div>
@@ -24,11 +24,11 @@
                         <p class="text-gray-400 text-[10px] tracking-[2px] uppercase">Admin Panel</p>
                     </div>
                 </div>
-                <button @click="sidebarOpen = false" class="lg:hidden text-gray-500 hover:text-gray-700">
+                <button @click="sidebarOpen = false" class="lg:hidden p-2 -mr-2 min-w-[40px] min-h-[40px] flex items-center justify-center text-gray-500 hover:text-gray-700 rounded-lg">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </div>
-            <nav class="mt-2 text-sm overflow-y-auto h-[calc(100vh-72px)] pb-6">
+            <nav class="flex-1 min-h-0 overflow-y-auto overscroll-contain text-sm pt-2 pb-6" style="padding-bottom: calc(1.5rem + env(safe-area-inset-bottom)); -webkit-overflow-scrolling: touch;">
 
                 <a href="{{ route('admin.dashboard') }}" class="flex items-center px-4 py-2 text-sm {{ request()->routeIs('admin.dashboard') ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-600' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
