@@ -4,16 +4,16 @@
 
     @section('content')
     <div class="bg-white rounded-2xl border border-gray-200">
-        <div class="p-4 border-b border-gray-100 flex justify-between items-center">
+        <div class="p-4 border-b border-gray-100 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
             <h3 class="font-semibold text-gray-900">Semua Tagihan</h3>
-            <form method="GET" class="flex space-x-2">
-                <select name="status" class="border border-gray-200 rounded-lg px-3 py-2 text-sm">
+            <form method="GET" class="flex flex-wrap sm:flex-nowrap gap-2 w-full sm:w-auto">
+                <select name="status" class="flex-1 sm:flex-none border border-gray-200 rounded-lg px-3 py-2 text-sm">
                     <option value="">Semua Status</option>
                     <option value="unpaid" {{ request('status') == 'unpaid' ? 'selected' : '' }}>Belum Bayar</option>
                     <option value="paid" {{ request('status') == 'paid' ? 'selected' : '' }}>Lunas</option>
                     <option value="overdue" {{ request('status') == 'overdue' ? 'selected' : '' }}>Tunggakan</option>
                 </select>
-                <button type="submit" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-200">Filter</button>
+                <button type="submit" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-200 font-semibold">Filter</button>
             </form>
         </div>
 

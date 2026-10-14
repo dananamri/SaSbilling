@@ -6,19 +6,21 @@
 @section('content')
 <div class="space-y-6">
     <!-- Filter Status Tabs -->
-    <div class="flex gap-2 bg-white p-2 rounded-2xl border border-gray-200 w-fit">
-        <a href="{{ route('admin.package-change-requests.index', ['status' => 'pending']) }}" class="px-4 py-2 rounded-xl text-xs font-bold transition {{ $status === 'pending' ? 'bg-blue-600 text-white shadow' : 'text-gray-600 hover:bg-gray-100' }}">
-            Pending ({{ $counts['pending'] }})
-        </a>
-        <a href="{{ route('admin.package-change-requests.index', ['status' => 'approved']) }}" class="px-4 py-2 rounded-xl text-xs font-bold transition {{ $status === 'approved' ? 'bg-blue-600 text-white shadow' : 'text-gray-600 hover:bg-gray-100' }}">
-            Disetujui ({{ $counts['approved'] }})
-        </a>
-        <a href="{{ route('admin.package-change-requests.index', ['status' => 'rejected']) }}" class="px-4 py-2 rounded-xl text-xs font-bold transition {{ $status === 'rejected' ? 'bg-blue-600 text-white shadow' : 'text-gray-600 hover:bg-gray-100' }}">
-            Ditolak ({{ $counts['rejected'] }})
-        </a>
-        <a href="{{ route('admin.package-change-requests.index', ['status' => 'all']) }}" class="px-4 py-2 rounded-xl text-xs font-bold transition {{ $status === 'all' ? 'bg-blue-600 text-white shadow' : 'text-gray-600 hover:bg-gray-100' }}">
-            Semua
-        </a>
+    <div class="overflow-x-auto pb-1 max-w-full">
+        <div class="flex gap-2 bg-white p-1.5 sm:p-2 rounded-2xl border border-gray-200 w-max">
+            <a href="{{ route('admin.package-change-requests.index', ['status' => 'pending']) }}" class="px-3.5 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap {{ $status === 'pending' ? 'bg-blue-600 text-white shadow' : 'text-gray-600 hover:bg-gray-100' }}">
+                Pending ({{ $counts['pending'] }})
+            </a>
+            <a href="{{ route('admin.package-change-requests.index', ['status' => 'approved']) }}" class="px-3.5 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap {{ $status === 'approved' ? 'bg-blue-600 text-white shadow' : 'text-gray-600 hover:bg-gray-100' }}">
+                Disetujui ({{ $counts['approved'] }})
+            </a>
+            <a href="{{ route('admin.package-change-requests.index', ['status' => 'rejected']) }}" class="px-3.5 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap {{ $status === 'rejected' ? 'bg-blue-600 text-white shadow' : 'text-gray-600 hover:bg-gray-100' }}">
+                Ditolak ({{ $counts['rejected'] }})
+            </a>
+            <a href="{{ route('admin.package-change-requests.index', ['status' => 'all']) }}" class="px-3.5 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap {{ $status === 'all' ? 'bg-blue-600 text-white shadow' : 'text-gray-600 hover:bg-gray-100' }}">
+                Semua
+            </a>
+        </div>
     </div>
 
     <!-- Tabel Permintaan -->
@@ -113,7 +115,7 @@
          class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
          style="display: none;"
          x-show="open" x-cloak>
-        <div class="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl space-y-4">
+        <div class="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 max-w-md w-full shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
             <h3 class="text-base font-bold text-gray-900">Tolak Permintaan Upgrade (<span x-text="requestNumber"></span>)</h3>
             <p class="text-xs text-gray-500">Pelanggan: <strong x-text="customerName"></strong></p>
 

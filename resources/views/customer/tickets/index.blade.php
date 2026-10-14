@@ -6,18 +6,18 @@
     <div class="bg-white rounded-2xl border border-gray-200">
         <div class="p-4 border-b border-gray-100 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
             <h3 class="font-semibold text-gray-900">Semua Pengaduan</h3>
-            <div class="flex flex-col sm:flex-row gap-2">
-                <form method="GET" class="flex gap-2">
-                    <select name="status" class="border border-gray-200 rounded-lg px-3 py-2 text-sm">
+            <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                <form method="GET" class="flex gap-2 flex-1 sm:flex-none">
+                    <select name="status" class="flex-1 sm:flex-none border border-gray-200 rounded-lg px-3 py-2 text-sm">
                         <option value="">Semua Status</option>
                         <option value="open" {{ request('status') == 'open' ? 'selected' : '' }}>Terbuka</option>
                         <option value="in_progress" {{ request('status') == 'in_progress' ? 'selected' : '' }}>Diproses</option>
                         <option value="resolved" {{ request('status') == 'resolved' ? 'selected' : '' }}>Selesai</option>
                         <option value="closed" {{ request('status') == 'closed' ? 'selected' : '' }}>Ditutup</option>
                     </select>
-                    <button type="submit" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-200">Filter</button>
+                    <button type="submit" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-200 font-semibold">Filter</button>
                 </form>
-                <a href="{{ route('customer.tickets.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 text-center">
+                <a href="{{ route('customer.tickets.create') }}" class="w-full sm:w-auto bg-blue-600 text-white px-4 py-2.5 rounded-lg text-sm font-semibold hover:bg-blue-700 text-center flex items-center justify-center">
                     Buat Pengaduan
                 </a>
             </div>
