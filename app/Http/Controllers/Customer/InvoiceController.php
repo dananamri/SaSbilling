@@ -24,16 +24,18 @@ class InvoiceController extends Controller
 
     public function show(Invoice $invoice): View
     {
-        $this->authorize('view', $invoice);
+        $customer = auth('customer')->user();
+        abort_unless($invoice->customer_id === $customer->id, 403);
 
-        $invoice->load(['customer', 'payments']);
+        $invoice->load(['customer.package', 'payments']);
 
         return view('customer.invoices.show', compact('invoice'));
     }
 
     public function download(Invoice $invoice)
     {
-        $this->authorize('view', $invoice);
+        $customer = auth('customer')->user();
+        abort_unless($invoice->customer_id === $customer->id, 403);
 
         $pdf = new Dompdf;
         $pdf->loadHtml(view('customer.invoices.pdf', compact('invoice'))->render());
@@ -45,7 +47,8 @@ class InvoiceController extends Controller
 
     public function print(Invoice $invoice)
     {
-        $this->authorize('view', $invoice);
+        $customer = auth('customer')->user();
+        abort_unless($invoice->customer_id === $customer->id, 403);
 
         return view('customer.invoices.print', compact('invoice'));
     }
