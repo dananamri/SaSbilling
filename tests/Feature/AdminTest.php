@@ -141,8 +141,8 @@ class AdminTest extends TestCase
 
     public function test_local_http_urls_are_not_forced_to_https(): void
     {
-        config(['app.url' => 'http://127.0.0.1:8000']);
+        config(['app.url' => 'http://localhost:8000']);
 
-        $this->assertSame('http://127.0.0.1:8000/login', url('/login'));
+        $this->assertSame('http://localhost:8000/login', url('/login'));
     }
 }

@@ -18,7 +18,7 @@ class CustomerController extends Controller
 {
     public function index(Request $request): View
     {
-        $customers = Customer::with('package')
+        $customers = Customer::with(['package', 'tenant'])
             ->when($request->status, fn ($q) => $q->where('status', $request->status))
             ->when($request->search, fn ($q) => $q->where(function ($query) use ($request) {
                 $query->where('name', 'like', "%{$request->search}%")
@@ -53,11 +53,16 @@ class CustomerController extends Controller
             'billing_day' => 'required|integer|min:1|max:28',
             'joined_at' => 'nullable|date',
             'password' => 'required|string|min:6|confirmed',
+            'photo' => 'nullable|image|max:2048',
             'tenant_id' => $isSuperAdmin ? 'required|exists:tenants,id' : 'nullable',
         ]);
 
         $validated['status'] = CustomerStatus::Active;
         $validated['password'] = Hash::make($validated['password']);
+
+        if ($request->hasFile('photo')) {
+            $validated['photo'] = $request->file('photo')->store('customers/photos', 'public');
+        }
 
         // Set tenant_id: SuperAdmin can choose, others use their tenant
         if (! $isSuperAdmin) {
@@ -71,7 +76,7 @@ class CustomerController extends Controller
 
     public function show(Customer $customer): View
     {
-        $customer->load(['package', 'invoices.payments', 'isolirLogs']);
+        $customer->load(['package', 'tenant', 'invoices.payments', 'isolirLogs']);
 
         return view('admin.customers.show', compact('customer'));
     }
