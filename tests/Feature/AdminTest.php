@@ -138,4 +138,11 @@ class AdminTest extends TestCase
 
         $response->assertSessionHasErrors('username');
     }
+
+    public function test_local_http_urls_are_not_forced_to_https(): void
+    {
+        config(['app.url' => 'http://127.0.0.1:8000']);
+
+        $this->assertSame('http://127.0.0.1:8000/login', url('/login'));
+    }
 }

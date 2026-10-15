@@ -20,6 +20,7 @@ class Customer extends Model implements AuthenticatableContract
         'phone',
         'email',
         'address',
+        'photo',
         'package_id',
         'status',
         'billing_day',
@@ -27,6 +28,7 @@ class Customer extends Model implements AuthenticatableContract
         'password',
         'email_notification',
         'whatsapp_notification',
+        'tenant_id',
     ];
 
     protected function casts(): array
@@ -38,6 +40,11 @@ class Customer extends Model implements AuthenticatableContract
             'email_notification' => 'boolean',
             'whatsapp_notification' => 'boolean',
         ];
+    }
+
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
     }
 
     public function package(): BelongsTo

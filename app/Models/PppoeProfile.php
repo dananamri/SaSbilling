@@ -8,7 +8,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PppoeProfile extends Model
 {
-    protected $fillable = ['router_id', 'name', 'local_address', 'remote_address', 'rate_limit', 'dns_server'];
+    protected $fillable = ['router_id', 'name', 'local_address', 'remote_address', 'rate_limit', 'dns_server', 'tenant_id'];
+
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
+    }
 
     public function router(): BelongsTo
     {
