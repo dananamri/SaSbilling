@@ -15,7 +15,13 @@ class TicketMessage extends Model
         'user_id',
         'customer_id',
         'message',
+        'tenant_id',
     ];
+
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
+    }
 
     public function ticket(): BelongsTo
     {

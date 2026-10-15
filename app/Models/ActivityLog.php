@@ -16,11 +16,17 @@ class ActivityLog extends Model
         'properties',
         'ip_address',
         'user_agent',
+        'tenant_id',
     ];
 
     protected $casts = [
         'properties' => 'array',
     ];
+
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
+    }
 
     public function user(): BelongsTo
     {
@@ -40,6 +46,7 @@ class ActivityLog extends Model
             'properties' => $properties,
             'ip_address' => request()->ip(),
             'user_agent' => request()->userAgent(),
+            'tenant_id' => $user?->tenant_id,
         ]);
     }
 }

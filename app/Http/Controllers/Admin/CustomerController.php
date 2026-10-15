@@ -7,9 +7,11 @@ use App\Enums\InvoiceStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Package;
+use App\Models\Tenant;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class CustomerController extends Controller
@@ -31,12 +33,16 @@ class CustomerController extends Controller
     public function create(): View
     {
         $packages = Package::where('is_active', true)->get();
+        $tenants = Tenant::where('is_active', true)->get();
 
-        return view('admin.customers.create', compact('packages'));
+        return view('admin.customers.create', compact('packages', 'tenants'));
     }
 
     public function store(Request $request): RedirectResponse
     {
+        $user = auth()->user();
+        $isSuperAdmin = $user->isSuperAdmin();
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:50|unique:customers,username',
@@ -47,10 +53,16 @@ class CustomerController extends Controller
             'billing_day' => 'required|integer|min:1|max:28',
             'joined_at' => 'nullable|date',
             'password' => 'required|string|min:6|confirmed',
+            'tenant_id' => $isSuperAdmin ? 'required|exists:tenants,id' : 'nullable',
         ]);
 
         $validated['status'] = CustomerStatus::Active;
         $validated['password'] = Hash::make($validated['password']);
+
+        // Set tenant_id: SuperAdmin can choose, others use their tenant
+        if (! $isSuperAdmin) {
+            $validated['tenant_id'] = $user->tenant_id;
+        }
 
         Customer::create($validated);
 
@@ -67,12 +79,16 @@ class CustomerController extends Controller
     public function edit(Customer $customer): View
     {
         $packages = Package::where('is_active', true)->get();
+        $tenants = Tenant::where('is_active', true)->get();
 
-        return view('admin.customers.edit', compact('customer', 'packages'));
+        return view('admin.customers.edit', compact('customer', 'packages', 'tenants'));
     }
 
     public function update(Request $request, Customer $customer): RedirectResponse
     {
+        $user = auth()->user();
+        $isSuperAdmin = $user->isSuperAdmin();
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:50|unique:customers,username,'.$customer->id,
@@ -83,12 +99,28 @@ class CustomerController extends Controller
             'billing_day' => 'required|integer|min:1|max:28',
             'joined_at' => 'nullable|date',
             'password' => 'nullable|string|min:6|confirmed',
+            'photo' => 'nullable|image|max:2048',
+            'tenant_id' => $isSuperAdmin ? 'required|exists:tenants,id' : 'nullable',
         ]);
 
         if (! empty($validated['password'])) {
             $validated['password'] = Hash::make($validated['password']);
         } else {
             unset($validated['password']);
+        }
+
+        // Handle photo upload
+        if ($request->hasFile('photo')) {
+            // Delete old photo if exists
+            if ($customer->photo) {
+                Storage::disk('public')->delete($customer->photo);
+            }
+            $validated['photo'] = $request->file('photo')->store('customers/photos', 'public');
+        }
+
+        // Set tenant_id: SuperAdmin can choose, others keep original tenant
+        if (! $isSuperAdmin) {
+            unset($validated['tenant_id']);
         }
 
         $customer->update($validated);

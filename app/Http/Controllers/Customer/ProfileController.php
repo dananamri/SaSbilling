@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -31,6 +32,27 @@ class ProfileController extends Controller
         $customer->update($validated);
 
         return back()->with('success', 'Profil berhasil diperbarui.');
+    }
+
+    public function updatePhoto(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'photo' => 'required|image|max:2048',
+        ]);
+
+        $customer = auth('customer')->user();
+
+        // Delete old photo if exists
+        if ($customer->photo) {
+            Storage::disk('public')->delete($customer->photo);
+        }
+
+        // Store new photo
+        $path = $request->file('photo')->store('customers/photos', 'public');
+
+        $customer->update(['photo' => $path]);
+
+        return back()->with('success', 'Foto profil berhasil diperbarui.');
     }
 
     public function updatePassword(Request $request): RedirectResponse

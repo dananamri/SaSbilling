@@ -97,6 +97,7 @@ Route::prefix('customer')->name('customer.')->group(function () {
         // Profil
         Route::get('/profile', [CustomerProfileController::class, 'index'])->name('profile');
         Route::put('/profile', [CustomerProfileController::class, 'update'])->name('profile.update');
+        Route::put('/profile/photo', [CustomerProfileController::class, 'updatePhoto'])->name('profile.photo');
         Route::put('/profile/password', [CustomerProfileController::class, 'updatePassword'])->name('profile.password');
 
         // Pengaturan
@@ -184,7 +185,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // GIS & Tenant
     Route::get('/map', [MapController::class, 'index'])->name('map.index');
     Route::get('/map/geojson', [MapController::class, 'geojson'])->name('map.geojson');
-    Route::resource('tenants', TenantController::class)->only(['index', 'create', 'store', 'destroy']);
+    Route::resource('tenants', TenantController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
 
     // Operasional SDM
     Route::get('/tickets', [HelpdeskTicketController::class, 'index'])->name('tickets.index');

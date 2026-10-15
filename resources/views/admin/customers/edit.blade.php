@@ -4,9 +4,29 @@
 
     @section('content')
     <div class="bg-white rounded-lg shadow p-6 max-w-2xl">
-        <form method="POST" action="{{ route('admin.customers.update', $customer) }}">
+        <form method="POST" action="{{ route('admin.customers.update', $customer) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
+            
+            <!-- Foto Profil -->
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Foto Profil</label>
+                <div class="flex items-center gap-4">
+                    @if($customer->photo)
+                        <img src="{{ asset('storage/' . $customer->photo) }}" alt="Foto Profil" class="w-16 h-16 rounded-full object-cover border-2 border-gray-200">
+                    @else
+                        <div class="w-16 h-16 rounded-full bg-gray-100 border-2 border-gray-200 flex items-center justify-center">
+                            <span class="text-2xl text-gray-400 font-bold">{{ strtoupper(substr($customer->name, 0, 1)) }}</span>
+                        </div>
+                    @endif
+                    <div>
+                        <input type="file" name="photo" accept="image/*" class="w-full px-3 py-2 border rounded text-sm @error('photo') border-red-500 @endif">
+                        @error('photo')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@endif
+                        <p class="text-xs text-gray-500 mt-1">Format: JPG, PNG • Maksimal 2MB</p>
+                    </div>
+                </div>
+            </div>
+            
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Nama *</label>
@@ -55,6 +75,18 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Bergabung</label>
                     <input type="date" name="joined_at" value="{{ old('joined_at', $customer->joined_at?->format('Y-m-d')) }}" class="w-full border rounded px-3 py-2 text-sm">
                 </div>
+                @if(auth()->user()->isSuperAdmin())
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Cabang (Tenant) *</label>
+                    <select name="tenant_id" class="w-full border rounded px-3 py-2 text-sm @error('tenant_id') border-red-500 @endif" required>
+                        <option value="">Pilih Cabang</option>
+                        @foreach($tenants as $tenant)
+                            <option value="{{ $tenant->id }}" {{ old('tenant_id', $customer->tenant_id) == $tenant->id ? 'selected' : '' }}>{{ $tenant->name }} ({{ $tenant->code }})</option>
+                        @endforeach
+                    </select>
+                    @error('tenant_id')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@endif
+                </div>
+                @endif
                 <div class="col-span-2">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Alamat</label>
                     <textarea name="address" rows="3" class="w-full border rounded px-3 py-2 text-sm">{{ old('address', $customer->address) }}</textarea>

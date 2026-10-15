@@ -54,6 +54,18 @@
                     <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Bergabung</label>
                     <input type="date" name="joined_at" value="{{ old('joined_at') }}" class="w-full border rounded px-3 py-2 text-sm">
                 </div>
+                @if(auth()->user()->isSuperAdmin())
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Cabang (Tenant) *</label>
+                    <select name="tenant_id" class="w-full border rounded px-3 py-2 text-sm @error('tenant_id') border-red-500 @endif" required>
+                        <option value="">Pilih Cabang</option>
+                        @foreach($tenants as $tenant)
+                            <option value="{{ $tenant->id }}" {{ old('tenant_id') == $tenant->id ? 'selected' : '' }}>{{ $tenant->name }} ({{ $tenant->code }})</option>
+                        @endforeach
+                    </select>
+                    @error('tenant_id')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@endif
+                </div>
+                @endif
                 <div class="col-span-2">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Alamat</label>
                     <textarea name="address" rows="3" class="w-full border rounded px-3 py-2 text-sm">{{ old('address') }}</textarea>

@@ -23,6 +23,7 @@
             <table class="min-w-full">
                 <thead class="bg-gray-50">
                     <tr>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase w-12">Foto</th>
                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nama</th>
                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase hidden sm:table-cell">Telepon</th>
                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase hidden sm:table-cell">Paket</th>
@@ -34,6 +35,15 @@
                 <tbody class="divide-y">
                     @foreach($customers as $customer)
                         <tr>
+                            <td class="px-4 py-3 text-sm">
+                                @if($customer->photo)
+                                    <img src="{{ asset('storage/' . $customer->photo) }}" alt="{{ $customer->name }}" class="w-8 h-8 rounded-full object-cover border border-gray-200 mx-auto">
+                                @else
+                                    <div class="w-8 h-8 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center mx-auto">
+                                        <span class="text-xs text-gray-400 font-bold">{{ strtoupper(substr($customer->name, 0, 1)) }}</span>
+                                    </div>
+                                @endif
+                            </td>
                             <td class="px-4 py-3 text-sm">{{ $customer->name }}</td>
                             <td class="px-4 py-3 text-sm hidden sm:table-cell">{{ $customer->phone }}</td>
                             <td class="px-4 py-3 text-sm hidden sm:table-cell">{{ $customer->package->name ?? '-' }}</td>

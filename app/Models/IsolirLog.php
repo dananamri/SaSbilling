@@ -16,6 +16,7 @@ class IsolirLog extends Model
         'action',
         'reason',
         'is_automatic',
+        'tenant_id',
     ];
 
     protected function casts(): array
@@ -24,6 +25,11 @@ class IsolirLog extends Model
             'action' => IsolirAction::class,
             'is_automatic' => 'boolean',
         ];
+    }
+
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
     }
 
     public function customer(): BelongsTo
