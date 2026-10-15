@@ -6,6 +6,18 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         <div class="bg-white rounded-lg shadow p-4 sm:p-6">
             <h3 class="text-base sm:text-lg font-semibold mb-4">Informasi Pelanggan</h3>
+            
+            <!-- Foto Profil -->
+            <div class="flex justify-center mb-4">
+                @if($customer->photo)
+                    <img src="{{ asset('storage/' . $customer->photo) }}" alt="Foto Profil" class="w-24 h-24 rounded-full object-cover border-2 border-gray-200">
+                @else
+                    <div class="w-24 h-24 rounded-full bg-gray-100 border-2 border-gray-200 flex items-center justify-center">
+                        <span class="text-3xl text-gray-400 font-bold">{{ strtoupper(substr($customer->name, 0, 1)) }}</span>
+                    </div>
+                @endif
+            </div>
+            
             <dl class="space-y-2 text-sm">
                 <div class="flex justify-between"><dt class="text-gray-500">Nama</dt><dd class="font-medium">{{ $customer->name }}</dd></div>
                 <div class="flex justify-between"><dt class="text-gray-500">Telepon</dt><dd>{{ $customer->phone }}</dd></div>

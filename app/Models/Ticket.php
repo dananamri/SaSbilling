@@ -24,6 +24,7 @@ class Ticket extends Model
         'resolved_at',
         'resolution_notes',
         'proof_photo',
+        'tenant_id',
     ];
 
     protected $casts = [
@@ -39,6 +40,11 @@ class Ticket extends Model
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
     }
 
     public function messages(): HasMany

@@ -43,7 +43,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        URL::forceScheme('https');
+        $appUrl = config('app.url');
+
+        if (is_string($appUrl) && str_starts_with($appUrl, 'https://')) {
+            URL::forceScheme('https');
+        }
 
         try {
             if (! Schema::hasTable('users')) {

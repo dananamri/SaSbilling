@@ -8,8 +8,12 @@
         <div class="bg-gradient-to-br from-blue-600 via-indigo-600 to-blue-800 rounded-3xl p-5 sm:p-7 text-white relative overflow-hidden shadow-sm">
             <div class="absolute -right-8 -top-6 w-40 h-40 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
             <div class="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-5">
-                <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-white/15 backdrop-blur border border-white/20 flex items-center justify-center text-white text-2xl sm:text-3xl font-black shrink-0">
-                    {{ strtoupper(substr($customer->name, 0, 1)) }}
+                <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-white/15 backdrop-blur border border-white/20 flex items-center justify-center text-white text-2xl sm:text-3xl font-black shrink-0 relative">
+                    @if($customer->photo)
+                        <img src="{{ asset('storage/' . $customer->photo) }}" alt="{{ $customer->name }}" class="w-full h-full rounded-3xl object-cover">
+                    @else
+                        {{ strtoupper(substr($customer->name, 0, 1)) }}
+                    @endif
                 </div>
                 <div class="flex-1 min-w-0">
                     <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight truncate">{{ $customer->name }}</h2>
@@ -28,6 +32,47 @@
                     <button type="submit" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-white text-blue-700 text-xs font-bold hover:bg-blue-50 transition">Keluar Akun</button>
                 </form>
             </div>
+        </div>
+
+        <!-- Foto Profil -->
+        <div class="bg-white rounded-2xl border border-gray-200 p-5 sm:p-6">
+            <h3 class="text-sm font-bold text-gray-900">Foto Profil</h3>
+            <p class="text-xs text-gray-500 mt-1">Unggah foto profil Anda (maksimal 2MB, format JPG/PNG).</p>
+
+            @if($errors->any())
+                <div class="mt-4 p-3 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700">
+                    <ul class="list-disc ml-4 space-y-1">
+                        @foreach($errors->all() as $e)
+                            <li>{{ $e }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('customer.profile.photo') }}" class="mt-4 space-y-4" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                
+                <div class="flex items-center gap-4">
+                    <div class="w-24 h-24 rounded-2xl bg-gray-100 border border-gray-200 flex items-center justify-center overflow-hidden shrink-0">
+                        @if($customer->photo)
+                            <img src="{{ asset('storage/' . $customer->photo) }}" alt="Foto Profil" class="w-full h-full object-cover">
+                        @else
+                            <span class="text-4xl text-gray-400">{{ strtoupper(substr($customer->name, 0, 1)) }}</span>
+                        @endif
+                    </div>
+                    <div class="flex-1">
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Pilih Foto</label>
+                        <input type="file" name="photo" accept="image/*" class="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
+                        @error('photo')
+                            <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                        @enderror
+                        <p class="text-xs text-gray-500 mt-1">Format: JPG, PNG • Maksimal 2MB</p>
+                    </div>
+                </div>
+                
+                <button type="submit" class="w-full sm:w-auto px-6 py-2.5 bg-indigo-600 text-white text-sm font-bold rounded-xl hover:bg-indigo-700 transition">Ubah Foto Profil</button>
+            </form>
         </div>
 
         <!-- Info Grid -->

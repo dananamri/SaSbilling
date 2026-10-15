@@ -8,6 +8,7 @@ use App\Models\Package;
 use App\Models\Payment;
 use App\Models\Setting;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -37,6 +38,7 @@ class DatabaseSeeder extends Seeder
         for ($i = 0; $i < 20; $i++) {
             $customer = Customer::create([
                 'name' => fake()->name(),
+                'username' => fake()->unique()->userName(),
                 'phone' => '08'.fake()->numerify('##########'),
                 'email' => fake()->safeEmail(),
                 'address' => fake()->address(),
@@ -44,6 +46,7 @@ class DatabaseSeeder extends Seeder
                 'status' => 'active',
                 'billing_day' => fake()->numberBetween(1, 28),
                 'joined_at' => fake()->dateTimeBetween('-1 year', 'now'),
+                'password' => Hash::make('password'),
             ]);
 
             for ($j = 0; $j < 3; $j++) {

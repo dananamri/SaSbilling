@@ -7,9 +7,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PaymentTicket extends Model
 {
-    protected $fillable = ['ticket_number', 'customer_id', 'invoice_id', 'amount', 'bank_name', 'account_name', 'account_number', 'payment_date', 'proof_path', 'status', 'verified_by', 'verified_at', 'notes', 'rejection_reason'];
+    protected $fillable = ['ticket_number', 'customer_id', 'invoice_id', 'amount', 'bank_name', 'account_name', 'account_number', 'payment_date', 'proof_path', 'status', 'verified_by', 'verified_at', 'notes', 'rejection_reason', 'tenant_id'];
 
     protected $casts = ['amount' => 'decimal:2', 'payment_date' => 'date', 'verified_at' => 'datetime'];
+
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
+    }
 
     public function customer(): BelongsTo
     {

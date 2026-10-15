@@ -22,6 +22,7 @@ class Invoice extends Model
         'status',
         'due_date',
         'paid_at',
+        'tenant_id',
     ];
 
     protected function casts(): array
@@ -39,6 +40,11 @@ class Invoice extends Model
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
     }
 
     public function payments(): HasMany

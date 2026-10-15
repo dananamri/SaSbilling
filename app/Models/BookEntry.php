@@ -7,9 +7,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BookEntry extends Model
 {
-    protected $fillable = ['entry_number', 'type', 'category', 'amount', 'date', 'description', 'receipt_path', 'user_id'];
+    protected $fillable = ['entry_number', 'type', 'category', 'amount', 'date', 'description', 'receipt_path', 'user_id', 'tenant_id'];
 
     protected $casts = ['amount' => 'decimal:2', 'date' => 'date'];
+
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
+    }
 
     public function user(): BelongsTo
     {

@@ -7,9 +7,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CashDeposit extends Model
 {
-    protected $fillable = ['deposit_number', 'user_id', 'amount', 'deposit_date', 'status', 'notes', 'proof_path', 'approved_by', 'approved_at', 'rejection_reason'];
+    protected $fillable = ['deposit_number', 'user_id', 'amount', 'deposit_date', 'status', 'notes', 'proof_path', 'approved_by', 'approved_at', 'rejection_reason', 'tenant_id'];
 
     protected $casts = ['amount' => 'decimal:2', 'deposit_date' => 'date', 'approved_at' => 'datetime'];
+
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
+    }
 
     public function cashier(): BelongsTo
     {

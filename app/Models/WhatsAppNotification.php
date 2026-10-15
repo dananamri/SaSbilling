@@ -19,6 +19,7 @@ class WhatsAppNotification extends Model
         'message',
         'status',
         'sent_at',
+        'tenant_id',
     ];
 
     protected function casts(): array
@@ -27,6 +28,11 @@ class WhatsAppNotification extends Model
             'type' => NotificationType::class,
             'sent_at' => 'datetime',
         ];
+    }
+
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
     }
 
     public function customer(): BelongsTo

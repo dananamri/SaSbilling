@@ -19,6 +19,7 @@ class Payment extends Model
         'reference',
         'paid_by',
         'notes',
+        'tenant_id',
     ];
 
     protected function casts(): array
@@ -32,5 +33,10 @@ class Payment extends Model
     public function invoice(): BelongsTo
     {
         return $this->belongsTo(Invoice::class);
+    }
+
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(Tenant::class);
     }
 }
