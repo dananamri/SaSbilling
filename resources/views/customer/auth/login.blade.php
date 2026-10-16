@@ -19,9 +19,14 @@
 
     <div class="relative z-10 w-full max-w-[440px] px-4 sm:px-6 my-6">
         <div class="bg-white/80 sm:bg-transparent backdrop-blur-xl border border-gray-200/50 rounded-2xl sm:rounded-3xl p-6 sm:p-12 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.1)]">
-            <!-- Logo -->
-            <div class="flex flex-col items-center mb-6 sm:mb-8">
-                <img src="{{ asset('images/satak_logo.jpeg') }}" alt="SATAK" class="h-20 sm:h-24 w-auto mb-4 rounded-xl border-2 border-gray-200">
+            <!-- Logo & Title -->
+            <div class="flex flex-col items-center mb-6 text-center">
+                <a href="{{ route('home') }}">
+                    <img src="{{ asset('images/satak_logo.jpeg') }}" alt="SATAK" class="h-16 sm:h-20 w-auto mb-3 rounded-2xl border-2 border-gray-200 shadow-sm">
+                </a>
+                <span class="inline-block px-3 py-1 text-[11px] font-extrabold text-blue-700 bg-blue-50 rounded-full border border-blue-100 uppercase tracking-wider mb-1.5">Pelanggan</span>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight">Portal Pelanggan</h2>
+                <p class="text-xs text-gray-500 mt-1">Masuk untuk cek tagihan & layanan internet</p>
             </div>
 
             <!-- Form -->
@@ -65,17 +70,22 @@
             </div>
 
             <!-- Register Button -->
-            <a href="{{ route('customer.register') }}" class="w-full py-3.5 border-2 border-[#0066FF] text-[#0066FF] text-base font-bold rounded-xl transition-all duration-300 hover:bg-[#0066FF] hover:text-white text-center block mb-4">
-                Daftar
+            <a href="{{ route('customer.register') }}" class="w-full py-3 border-2 border-[#0066FF] text-[#0066FF] text-xs sm:text-sm font-bold rounded-xl transition-all duration-300 hover:bg-[#0066FF] hover:text-white text-center block mb-3">
+                Daftar Akun Baru
             </a>
 
-            <!-- Back Link -->
-            <a href="{{ route('home') }}" class="flex items-center justify-center gap-2 text-sm text-gray-500 transition-colors duration-300 hover:text-[#0066FF]">
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M19 12H5M12 19l-7-7 7-7"/>
-                </svg>
-                Kembali ke Beranda
-            </a>
+            <!-- Portal Switch & Back -->
+            <div class="space-y-2">
+                <a href="{{ route('login') }}" class="w-full py-2.5 bg-gray-100 text-gray-700 text-xs sm:text-sm font-semibold rounded-xl hover:bg-gray-200 transition text-center block">
+                    Masuk sebagai Admin / Staf &rarr;
+                </a>
+                <a href="{{ route('home') }}" class="flex items-center justify-center gap-2 text-xs sm:text-sm text-gray-500 transition-colors duration-300 hover:text-gray-900 pt-1">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    Kembali ke Pilihan Portal
+                </a>
+            </div>
         </div>
     </div>
 

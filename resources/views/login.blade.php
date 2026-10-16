@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Masuk - SATAK</title>
+    <title>Masuk Admin & Staf - SATAK</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -19,9 +19,14 @@
 
     <div class="relative z-10 w-full max-w-[440px] px-4 sm:px-6 my-6">
         <div class="bg-white/80 sm:bg-transparent backdrop-blur-xl border border-gray-200/50 rounded-2xl sm:rounded-3xl p-6 sm:p-12 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.1)]">
-            <!-- Logo -->
-            <div class="flex flex-col items-center mb-6 sm:mb-8">
-                <img src="{{ asset('images/satak_logo.jpeg') }}" alt="SATAK" class="h-20 sm:h-24 w-auto mb-4 rounded-xl border-2 border-gray-200">
+            <!-- Logo & Title -->
+            <div class="flex flex-col items-center mb-6 text-center">
+                <a href="{{ route('home') }}">
+                    <img src="{{ asset('images/satak_logo.jpeg') }}" alt="SATAK" class="h-16 sm:h-20 w-auto mb-3 rounded-2xl border-2 border-gray-200 shadow-sm">
+                </a>
+                <span class="inline-block px-3 py-1 text-[11px] font-extrabold text-gray-700 bg-gray-100 rounded-full border border-gray-200 uppercase tracking-wider mb-1.5">Admin & Staf</span>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight">Masuk Panel Admin</h2>
+                <p class="text-xs text-gray-500 mt-1">Khusus pengelola, teknisi & kasir</p>
             </div>
 
             <!-- Form -->
@@ -60,17 +65,22 @@
             <!-- Divider -->
             <div class="flex items-center gap-4 my-6">
                 <div class="flex-1 h-px bg-gray-200"></div>
-                <span class="text-xs text-gray-400">atau</span>
+                <span class="text-xs text-gray-400">bukan admin?</span>
                 <div class="flex-1 h-px bg-gray-200"></div>
             </div>
 
-            <!-- Back Link -->
-            <a href="{{ route('home') }}" class="flex items-center justify-center gap-2 text-sm text-gray-500 transition-colors duration-300 hover:text-[#0066FF]">
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M19 12H5M12 19l-7-7 7-7"/>
-                </svg>
-                Kembali ke Beranda
-            </a>
+            <!-- Portal Switch Links -->
+            <div class="space-y-2.5">
+                <a href="{{ route('customer.login') }}" class="w-full py-3 bg-blue-50 border border-blue-200 text-blue-700 text-xs sm:text-sm font-bold rounded-xl hover:bg-blue-100 transition text-center block">
+                    Beralih ke Portal Pelanggan &rarr;
+                </a>
+                <a href="{{ route('home') }}" class="flex items-center justify-center gap-2 text-xs sm:text-sm text-gray-500 transition-colors duration-300 hover:text-gray-900 pt-1">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    Kembali ke Pilihan Portal
+                </a>
+            </div>
         </div>
     </div>
 

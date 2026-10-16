@@ -46,7 +46,14 @@ use App\Http\Controllers\Customer\UsageController as CustomerUsageController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->route('login');
+    if (auth('customer')->check()) {
+        return redirect()->route('customer.dashboard');
+    }
+    if (auth()->check()) {
+        return redirect()->route('admin.dashboard');
+    }
+
+    return view('landing');
 })->name('home');
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
