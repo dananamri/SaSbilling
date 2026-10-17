@@ -21,7 +21,7 @@ class LoginController extends Controller
 {
     public function showLoginForm(): View
     {
-        return view('customer.auth.login');
+        return view('login');
     }
 
     public function showRegisterForm(): View
@@ -140,6 +140,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('customer.login');
+        return redirect()->route('login', ['role' => 'customer']);
     }
 }

@@ -15,13 +15,13 @@ use Illuminate\Support\Facades\DB;
 
 class CleanCustomersCommand extends Command
 {
-    protected $signature = 'billing:clean-customers';
+    protected $signature = 'billing:clean-customers {--force : Jalankan pembersihan tanpa konfirmasi interaktif}';
 
     protected $description = 'Menghapus seluruh data pelanggan beserta tagihan, pembayaran, tiket dan riwayat terkait.';
 
     public function handle(): int
     {
-        if (! $this->confirm('Hapus SEMUA data pelanggan, tagihan, pembayaran, dan tiket? Tidak dapat dibatalkan!')) {
+        if (! $this->option('force') && ! $this->confirm('Hapus SEMUA data pelanggan, tagihan, pembayaran, dan tiket? Tidak dapat dibatalkan!')) {
             $this->info('Pembersihan dibatalkan.');
 
             return self::SUCCESS;

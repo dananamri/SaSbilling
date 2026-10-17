@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\RouterController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TenantController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Customer\Auth\LoginController as CustomerLoginController;
 use App\Http\Controllers\Customer\ConnectionController as CustomerConnectionController;
@@ -53,12 +54,20 @@ Route::get('/', function () {
         return redirect()->route('admin.dashboard');
     }
 
-    return view('landing');
+    return redirect()->route('login');
 })->name('home');
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+// Forgot & Reset Password Mandiri (Tanpa WhatsApp)
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::get('/customer/forgot-password', fn () => redirect()->route('password.request', ['type' => 'customer']))->name('customer.password.request');
+Route::get('/admin/forgot-password', fn () => redirect()->route('password.request', ['type' => 'admin']))->name('admin.password.request');
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetOtp'])->name('password.email');
+Route::get('/reset-password', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset.form');
+Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword'])->name('password.update');
 
 // Customer Portal
 Route::prefix('customer')->name('customer.')->group(function () {
