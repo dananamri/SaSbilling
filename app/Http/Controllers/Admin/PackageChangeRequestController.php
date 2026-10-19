@@ -66,10 +66,11 @@ class PackageChangeRequestController extends Controller
             'approved_at' => now(),
         ]);
 
-        ActivityLog::record(
-            'package_upgrade_approved',
+        ActivityLog::log(
+            'approved',
+            'upgrade-paket',
             "Menyetujui upgrade paket pelanggan {$customer->name} dari {$oldPackageName} ke {$targetPackage->name} ({$packageChangeRequest->request_number})",
-            $packageChangeRequest
+            ['request_id' => $packageChangeRequest->id]
         );
 
         // Notifikasi balik ke WhatsApp Pelanggan
@@ -106,10 +107,11 @@ class PackageChangeRequestController extends Controller
         $customer = $packageChangeRequest->customer;
         $targetPackage = $packageChangeRequest->targetPackage;
 
-        ActivityLog::record(
-            'package_upgrade_rejected',
+        ActivityLog::log(
+            'rejected',
+            'upgrade-paket',
             "Menolak upgrade paket pelanggan {$customer->name} ({$packageChangeRequest->request_number}): {$validated['rejection_reason']}",
-            $packageChangeRequest
+            ['request_id' => $packageChangeRequest->id]
         );
 
         // Notifikasi penolakan ke WhatsApp Pelanggan

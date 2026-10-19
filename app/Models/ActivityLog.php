@@ -49,4 +49,16 @@ class ActivityLog extends Model
             'tenant_id' => $user?->tenant_id,
         ]);
     }
+
+    public static function record(string $action, string $description, mixed $subject = null): self
+    {
+        $properties = null;
+        if ($subject instanceof Model) {
+            $properties = ['id' => $subject->getKey(), 'class' => $subject::class];
+        } elseif (is_array($subject)) {
+            $properties = $subject;
+        }
+
+        return self::log($action, 'general', $description, $properties);
+    }
 }
