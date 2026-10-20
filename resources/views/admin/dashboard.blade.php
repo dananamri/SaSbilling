@@ -81,6 +81,72 @@
         </div>
     </div>
 
+    <!-- Traffic Bulanan (chart SVG murni, tanpa library eksternal) -->
+    <div class="bg-white rounded-lg shadow p-4 sm:p-6 mb-6">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div>
+                <h3 class="text-base sm:text-lg font-semibold text-gray-800">Traffic Bulanan</h3>
+                <p class="text-xs text-gray-500">Total download + upload 6 bulan terakhir</p>
+            </div>
+            <div class="text-right">
+                <p class="text-xs text-gray-500">Bulan Ini</p>
+                <p class="text-lg sm:text-xl font-bold text-blue-600">{{ $trafficMonths->last()['display'] }}</p>
+            </div>
+        </div>
+
+        @if($trafficMonths->sum('bytes') === 0)
+            <p class="text-gray-500 text-sm py-10 text-center">
+                Belum ada data traffic. Grafik akan terisi otomatis ketika monitoring bandwidth router mulai mencatat.
+            </p>
+        @else
+            @php
+                $chartWidth = 600;
+                $chartTop = 14;
+                $chartBaseline = 138;
+                $paddingX = 14;
+                $maxBytes = max($trafficMonths->max('bytes'), 1);
+                $step = ($chartWidth - $paddingX * 2) / max($trafficMonths->count() - 1, 1);
+
+                $points = $trafficMonths->map(fn (array $month, int $index) => [
+                    'x' => $paddingX + $index * $step,
+                    'y' => $chartTop + (1 - $month['bytes'] / $maxBytes) * ($chartBaseline - $chartTop),
+                ])->values();
+
+                $linePath = sprintf('M %.1f %.1f', $points[0]['x'], $points[0]['y']);
+                for ($i = 1; $i < $points->count(); $i++) {
+                    $previous = $points[$i - 1];
+                    $current = $points[$i];
+                    $midX = ($previous['x'] + $current['x']) / 2;
+                    $linePath .= sprintf(' C %.1f %.1f, %.1f %.1f, %.1f %.1f', $midX, $previous['y'], $midX, $current['y'], $current['x'], $current['y']);
+                }
+                $areaPath = $linePath.sprintf(' L %.1f %.1f L %.1f %.1f Z', $points->last()['x'], $chartBaseline, $points[0]['x'], $chartBaseline);
+            @endphp
+
+            <svg viewBox="0 0 600 170" class="w-full h-auto" role="img" aria-label="Grafik traffic bulanan 6 bulan terakhir">
+                <defs>
+                    <linearGradient id="trafficAreaFill" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#0066FF" stop-opacity="0.25"></stop>
+                        <stop offset="100%" stop-color="#0066FF" stop-opacity="0"></stop>
+                    </linearGradient>
+                </defs>
+
+                @foreach([$chartTop, ($chartTop + $chartBaseline) / 2, $chartBaseline] as $gridY)
+                    <line x1="0" y1="{{ $gridY }}" x2="600" y2="{{ $gridY }}" stroke="#E5E7EB" stroke-width="1"></line>
+                @endforeach
+
+                <path d="{{ $areaPath }}" fill="url(#trafficAreaFill)"></path>
+                <path d="{{ $linePath }}" fill="none" stroke="#0066FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+
+                @foreach($points as $index => $point)
+                    <circle cx="{{ round($point['x'], 1) }}" cy="{{ round($point['y'], 1) }}" r="4" fill="#FFFFFF" stroke="#0066FF" stroke-width="2.5">
+                        <title>{{ $trafficMonths[$index]['label'] }}: {{ $trafficMonths[$index]['display'] }}</title>
+                    </circle>
+                    <text x="{{ round($point['x'], 1) }}" y="160" text-anchor="middle" font-size="12" fill="#6B7280">{{ $trafficMonths[$index]['label'] }}</text>
+                @endforeach
+            </svg>
+        @endif
+    </div>
+
     <!-- Recent Payments -->
     <div class="bg-white rounded-lg shadow p-4 sm:p-6">
         <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-4">Pembayaran Terbaru</h3>

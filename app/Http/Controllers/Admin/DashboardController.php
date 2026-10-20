@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\CustomerStatus;
 use App\Enums\InvoiceStatus;
 use App\Http\Controllers\Controller;
+use App\Models\BandwidthSnapshot;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Payment;
@@ -49,6 +50,23 @@ class DashboardController extends Controller
             ->orderBy('month')
             ->pluck('total', 'month');
 
+        $trafficByMonth = BandwidthSnapshot::selectRaw("{$dateFormat} as month, SUM(rx_bytes + tx_bytes) as total")
+            ->where('recorded_at', '>=', now()->subMonths(6))
+            ->groupBy('month')
+            ->orderBy('month')
+            ->pluck('total', 'month');
+
+        $trafficMonths = collect(range(5, 0))->map(function (int $offset) use ($trafficByMonth): array {
+            $month = now()->subMonths($offset);
+            $bytes = (int) $trafficByMonth->get($month->format('Y-%m'), 0);
+
+            return [
+                'label' => $month->format('M'),
+                'bytes' => $bytes,
+                'display' => $this->formatBytes($bytes),
+            ];
+        })->values();
+
         return view('admin.dashboard', compact(
             'totalCustomers',
             'activeCustomers',
@@ -58,6 +76,23 @@ class DashboardController extends Controller
             'overdueInvoices',
             'recentPayments',
             'revenueByMonth',
+            'trafficMonths',
         ));
+    }
+
+    /**
+     * Format jumlah byte ke satuan yang mudah dibaca (KB/MB/GB/...).
+     */
+    private function formatBytes(int|float $bytes): string
+    {
+        $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+        $index = 0;
+
+        while ($bytes >= 1024 && $index < count($units) - 1) {
+            $bytes /= 1024;
+            $index++;
+        }
+
+        return number_format($bytes, $index === 0 ? 0 : ($bytes >= 100 ? 0 : 1), ',', '.').' '.$units[$index];
     }
 }
