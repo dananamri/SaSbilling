@@ -11,3 +11,4 @@ Artisan::command('inspire', function () {
 Schedule::command('billing:generate')->dailyAt('01:00')->withoutOverlapping();
 Schedule::command('billing:remind')->dailyAt('08:00')->withoutOverlapping();
 Schedule::command('billing:isolir-check')->dailyAt('02:00')->withoutOverlapping();
+Schedule::command('traffic:demo:cleanup')->everyMinute();

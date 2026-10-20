@@ -9,6 +9,7 @@ use App\Models\BandwidthSnapshot;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Payment;
+use App\Support\TrafficDemo;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -16,6 +17,9 @@ class DashboardController extends Controller
 {
     public function index(): View
     {
+        // Bersihkan data demo trafik sementara begitu masa berlakunya habis.
+        TrafficDemo::cleanup();
+
         $totalCustomers = Customer::count();
         $activeCustomers = Customer::where('status', CustomerStatus::Active)->count();
         $isolatedCustomers = Customer::where('status', CustomerStatus::Isolated)->count();
