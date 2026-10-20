@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\EnsureCustomerApproved;
+use App\Http\Middleware\EnsureMenuAccess;
 use App\Http\Middleware\EnsureRole;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -18,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'customer.approved' => EnsureCustomerApproved::class,
             'role' => EnsureRole::class,
+            'menu.access' => EnsureMenuAccess::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -10,7 +10,9 @@ use App\Policies\InvoicePolicy;
 use App\Policies\PaymentPolicy;
 use App\Policies\TicketPolicy;
 use App\Policies\WhatsAppNotificationPolicy;
+use App\Support\AdminPermissions;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
@@ -48,6 +50,9 @@ class AppServiceProvider extends ServiceProvider
         if (is_string($appUrl) && str_starts_with($appUrl, 'https://')) {
             URL::forceScheme('https');
         }
+
+        Blade::if('menu', fn (string $key) => AdminPermissions::can(auth()->user(), $key));
+        Blade::if('menusection', fn (string $section) => AdminPermissions::sectionVisible($section));
 
         try {
             if (! Schema::hasTable('users')) {

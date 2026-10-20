@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\CashDepositController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\GacsController;
+use App\Http\Controllers\Admin\HakAksesController;
 use App\Http\Controllers\Admin\HelpdeskTicketController;
 use App\Http\Controllers\Admin\HotspotMemberController;
 use App\Http\Controllers\Admin\HotspotProfileController;
@@ -123,8 +124,11 @@ Route::prefix('customer')->name('customer.')->group(function () {
     });
 });
 
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'menu.access'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/hak-akses', [HakAksesController::class, 'index'])->name('hak-akses.index');
+    Route::put('/hak-akses', [HakAksesController::class, 'update'])->name('hak-akses.update');
 
     Route::resource('customers', CustomerController::class);
     Route::post('/customers/{customer}/approve', [CustomerController::class, 'approve'])->name('customers.approve');
