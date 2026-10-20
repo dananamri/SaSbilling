@@ -10,17 +10,17 @@
     @vite(['resources/css/app.css'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body class="bg-white text-gray-900 min-h-screen flex items-center justify-center p-4 font-['Plus_Jakarta_Sans'] relative overflow-x-hidden selection:bg-[#00E5CC] selection:text-gray-900"
+<body class="bg-[#061141] text-gray-900 min-h-screen flex items-center justify-center p-4 font-['Plus_Jakarta_Sans'] relative overflow-x-hidden selection:bg-[#00E5CC] selection:text-gray-900"
       x-data="{
           role: '{{ request('role') === 'admin' ? 'admin' : (request('role') === 'customer' ? 'customer' : (old('role', 'customer'))) }}',
           showPassword: false
       }">
 
-    <!-- Background Asli SATAK (Putih Bersih + Aksen Cyan #00E5CC & Biru #0066FF) -->
-    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <div class="absolute w-[600px] h-[600px] bg-[#00E5CC] rounded-full blur-[80px] opacity-20 -top-[200px] -right-[100px] animate-[float_20s_ease-in-out_infinite]"></div>
-        <div class="absolute w-[500px] h-[500px] bg-[#0066FF] rounded-full blur-[80px] opacity-20 -bottom-[150px] -left-[100px] animate-[float_20s_ease-in-out_infinite_-7s]"></div>
-        <div class="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+    <!-- Background Biru Navy Dominan + Aksen Putih (campur #0066FF) -->
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none bg-[linear-gradient(135deg,#061141_0%,#0B2773_45%,#1349C4_78%,#E9F0FF_100%)]">
+        <div class="absolute w-[600px] h-[600px] bg-white rounded-full blur-[80px] opacity-20 -top-[200px] -right-[100px] animate-[float_20s_ease-in-out_infinite]"></div>
+        <div class="absolute w-[500px] h-[500px] bg-[#0066FF] rounded-full blur-[80px] opacity-30 -bottom-[150px] -left-[100px] animate-[float_20s_ease-in-out_infinite_-7s]"></div>
+        <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px)] bg-[size:60px_60px]"></div>
     </div>
 
     <!-- Login Modal Card -->
