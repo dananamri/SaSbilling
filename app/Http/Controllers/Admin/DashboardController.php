@@ -62,7 +62,7 @@ class DashboardController extends Controller
 
         $trafficMonths = collect(range(5, 0))->map(function (int $offset) use ($trafficByMonth): array {
             $month = now()->subMonths($offset);
-            $bytes = (int) $trafficByMonth->get($month->format('Y-%m'), 0);
+            $bytes = (int) $trafficByMonth->get($month->format('Y-m'), 0);
 
             return [
                 'label' => $month->format('M'),

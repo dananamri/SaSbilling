@@ -91,6 +91,18 @@ class TrafficDemoTest extends TestCase
         $this->assertDatabaseHas('routers', ['id' => $realRouter->id]);
     }
 
+    public function test_dashboard_shows_traffic_chart_when_demo_active(): void
+    {
+        TrafficDemo::seed(60);
+
+        $this->actingAs($this->makeSuperAdmin());
+        $response = $this->get('/admin/dashboard');
+
+        $response->assertOk();
+        $response->assertSee('Traffic Bulanan');
+        $response->assertDontSee('Belum ada data traffic');
+    }
+
     public function test_dashboard_open_after_expiry_removes_demo_automatically(): void
     {
         TrafficDemo::seed(2);
