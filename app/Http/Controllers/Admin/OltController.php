@@ -38,7 +38,7 @@ class OltController extends Controller
         $olt = Olt::create($validated);
         ActivityLog::log('created', 'olt', "Menambahkan OLT: {$olt->name} ({$olt->brand})");
 
-        return redirect()->route('admin.olt.index')->with('success', 'OLT berhasil didaftarkan.');
+        return redirect()->route('admin.olts.index')->with('success', 'OLT berhasil didaftarkan.');
     }
 
     public function poll(Olt $olt): RedirectResponse
