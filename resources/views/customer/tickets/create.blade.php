@@ -11,23 +11,15 @@
                 <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
                 <select name="category" id="category" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
                     <option value="">Pilih Kategori</option>
-                    <option value="Internet Mati" {{ old('category') == 'Internet Mati' ? 'selected' : '' }}>Internet Mati</option>
-                    <option value="Internet Lambat" {{ old('category') == 'Internet Lambat' ? 'selected' : '' }}>Internet Lambat</option>
-                    <option value="Gangguan Jaringan" {{ old('category') == 'Gangguan Jaringan' ? 'selected' : '' }}>Gangguan Jaringan</option>
-                    <option value="Masalah Pembayaran" {{ old('category') == 'Masalah Pembayaran' ? 'selected' : '' }}>Masalah Pembayaran</option>
-                    <option value="Masalah Paket" {{ old('category') == 'Masalah Paket' ? 'selected' : '' }}>Masalah Paket</option>
-                    <option value="Perubahan Data" {{ old('category') == 'Perubahan Data' ? 'selected' : '' }}>Perubahan Data</option>
-                    <option value="Lainnya" {{ old('category') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                    <option value="internet_mati" {{ old('category') == 'internet_mati' ? 'selected' : '' }}>Internet Mati</option>
+                    <option value="internet_lambat" {{ old('category') == 'internet_lambat' ? 'selected' : '' }}>Internet Lambat</option>
+                    <option value="gangguan_jaringan" {{ old('category') == 'gangguan_jaringan' ? 'selected' : '' }}>Gangguan Jaringan</option>
+                    <option value="masalah_pembayaran" {{ old('category') == 'masalah_pembayaran' ? 'selected' : '' }}>Masalah Pembayaran</option>
+                    <option value="masalah_paket" {{ old('category') == 'masalah_paket' ? 'selected' : '' }}>Masalah Paket</option>
+                    <option value="perubahan_data" {{ old('category') == 'perubahan_data' ? 'selected' : '' }}>Perubahan Data</option>
+                    <option value="lainnya" {{ old('category') == 'lainnya' ? 'selected' : '' }}>Lainnya</option>
                 </select>
                 @error('category')
-                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div>
-                <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Judul</label>
-                <input type="text" name="title" id="title" value="{{ old('title') }}" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
-                @error('title')
                     <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                 @enderror
             </div>
