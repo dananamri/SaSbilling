@@ -41,7 +41,7 @@ class PaymentController extends Controller
         $customer = auth('customer')->user();
         abort_unless($payment->invoice->customer_id === $customer->id, 403);
 
-        $payment->load('invoice.package');
+        $payment->load('invoice.customer.package');
 
         return view('customer.payments.show', compact('payment'));
     }
@@ -51,7 +51,7 @@ class PaymentController extends Controller
         $customer = auth('customer')->user();
         abort_unless($payment->invoice->customer_id === $customer->id, 403);
 
-        $payment->load('invoice.package', 'invoice.customer');
+        $payment->load('invoice.customer.package');
 
         return view('customer.payments.receipt', compact('payment'));
     }

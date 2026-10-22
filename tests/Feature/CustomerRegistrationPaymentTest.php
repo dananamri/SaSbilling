@@ -3,8 +3,12 @@
 namespace Tests\Feature;
 
 use App\Enums\CustomerStatus;
+use App\Enums\InvoiceStatus;
+use App\Enums\PaymentMethod;
 use App\Models\Customer;
+use App\Models\Invoice;
 use App\Models\Package;
+use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -107,5 +111,57 @@ class CustomerRegistrationPaymentTest extends TestCase
         ])->assertRedirect(route('customer.dashboard'));
 
         $this->assertAuthenticatedAs($customer, 'customer');
+    }
+
+    public function test_customer_can_view_payment_detail_and_receipt(): void
+    {
+        $package = Package::create([
+            'name' => 'Home Pro 50M',
+            'speed' => '50 Mbps',
+            'price' => 250000,
+            'is_active' => true,
+        ]);
+
+        $customer = Customer::create([
+            'name' => 'Pelanggan Bayar',
+            'username' => 'pelangganbayar',
+            'email' => 'bayar@example.com',
+            'phone' => '081144455566',
+            'address' => 'Alamat Test',
+            'password' => bcrypt('password123'),
+            'package_id' => $package->id,
+            'status' => CustomerStatus::Active,
+            'billing_day' => 1,
+        ]);
+
+        $invoice = Invoice::create([
+            'invoice_number' => 'INV-TEST-8801',
+            'customer_id' => $customer->id,
+            'period' => '2026-10',
+            'amount' => 250000,
+            'late_fee' => 0,
+            'discount' => 0,
+            'status' => InvoiceStatus::Paid,
+            'due_date' => now()->addWeek(),
+            'paid_at' => now(),
+        ]);
+
+        $payment = Payment::create([
+            'invoice_id' => $invoice->id,
+            'amount' => 250000,
+            'method' => PaymentMethod::TransferBCA,
+            'status' => 'success',
+            'paid_by' => 'Pelanggan Bayar',
+        ]);
+
+        $this->actingAs($customer, 'customer');
+
+        // Sebelum fix: 500 RelationNotFoundException (relasi invoice.package tidak ada).
+        $this->get(route('customer.payments.show', $payment))
+            ->assertOk()
+            ->assertSee($invoice->invoice_number)
+            ->assertSee($package->name);
+
+        $this->get(route('customer.payments.receipt', $payment))->assertOk();
     }
 }
