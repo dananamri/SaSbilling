@@ -15,8 +15,8 @@ class AdminPermissions
      */
     public const SECTIONS = [
         'Manajemen' => [
-            'customers' => 'Customers',
-            'users' => 'Users',
+            'customers' => 'Pelanggan',
+            'users' => 'Pengguna',
             'packages' => 'Paket Layanan',
             'package-change-requests' => 'Permintaan Upgrade',
             'book-entries' => 'Pembukuan',
