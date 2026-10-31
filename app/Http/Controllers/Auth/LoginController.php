@@ -30,7 +30,7 @@ class LoginController extends Controller
 
         if ($user && Hash::check($credentials['password'], $user->password)) {
             if (isset($user->is_active) && ! $user->is_active) {
-                return back()->withErrors(['username' => 'Akun Anda dinonaktifkan.'])->onlyInput('username');
+                return back()->withErrors(['username' => 'Akun Anda dinonaktifkan.'])->withInput($request->only('username') + ['role' => 'admin']);
             }
 
             Auth::login($user, $request->boolean('remember'));
@@ -41,7 +41,7 @@ class LoginController extends Controller
 
         return back()->withErrors([
             'username' => 'Username atau password salah.',
-        ])->onlyInput('username');
+        ])->withInput($request->only('username') + ['role' => 'admin']);
     }
 
     public function logout(Request $request): RedirectResponse
