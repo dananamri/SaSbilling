@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
 class Customer extends Model implements AuthenticatableContract
 {
@@ -40,6 +41,15 @@ class Customer extends Model implements AuthenticatableContract
             'email_notification' => 'boolean',
             'whatsapp_notification' => 'boolean',
         ];
+    }
+
+    public function getPhotoUrlAttribute(): ?string
+    {
+        if ($this->photo && Storage::disk('public')->exists($this->photo)) {
+            return asset('storage/'.$this->photo);
+        }
+
+        return null;
     }
 
     public function tenant(): BelongsTo

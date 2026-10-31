@@ -9,13 +9,12 @@
             
             <!-- Foto Profil -->
             <div class="flex justify-center mb-4">
-                @if($customer->photo)
-                    <img src="{{ asset('storage/' . $customer->photo) }}" alt="Foto Profil" class="w-24 h-24 rounded-full object-cover border-2 border-gray-200">
-                @else
-                    <div class="w-24 h-24 rounded-full bg-gray-100 border-2 border-gray-200 flex items-center justify-center">
-                        <span class="text-3xl text-gray-400 font-bold">{{ strtoupper(substr($customer->name, 0, 1)) }}</span>
-                    </div>
+                @if($customer->photo_url)
+                    <img src="{{ $customer->photo_url }}" alt="Foto Profil" class="w-24 h-24 rounded-full object-cover border-2 border-gray-200" onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='flex'">
                 @endif
+                <div class="w-24 h-24 rounded-full bg-gray-100 border-2 border-gray-200 items-center justify-center {{ $customer->photo_url ? 'hidden' : 'flex' }}">
+                    <span class="text-3xl text-gray-400 font-bold">{{ strtoupper(substr($customer->name, 0, 1)) }}</span>
+                </div>
             </div>
             
             <dl class="space-y-2 text-sm">

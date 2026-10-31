@@ -17,11 +17,10 @@
                         <img :src="photoPreview" class="w-full h-full object-cover">
                     </template>
                     <template x-if="!photoPreview">
-                        @if($customer->photo)
-                            <img src="{{ asset('storage/' . $customer->photo) }}" alt="Foto Profil" class="w-full h-full object-cover">
-                        @else
-                            <span class="text-xl text-gray-400 font-bold">{{ strtoupper(substr($customer->name, 0, 1)) }}</span>
+                        @if($customer->photo_url)
+                            <img src="{{ $customer->photo_url }}" alt="Foto Profil" class="w-full h-full object-cover" onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='flex'">
                         @endif
+                        <span class="text-xl text-gray-400 font-bold {{ $customer->photo_url ? 'hidden' : 'flex' }} items-center justify-center w-full h-full">{{ strtoupper(substr($customer->name, 0, 1)) }}</span>
                     </template>
                 </div>
                 <div class="flex-1">

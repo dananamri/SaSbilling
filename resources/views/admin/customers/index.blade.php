@@ -36,13 +36,12 @@
                     @foreach($customers as $customer)
                         <tr>
                             <td class="px-4 py-3 text-sm">
-                                @if($customer->photo)
-                                    <img src="{{ asset('storage/' . $customer->photo) }}" alt="{{ $customer->name }}" class="w-8 h-8 rounded-full object-cover border border-gray-200 mx-auto">
-                                @else
-                                    <div class="w-8 h-8 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center mx-auto">
-                                        <span class="text-xs text-gray-400 font-bold">{{ strtoupper(substr($customer->name, 0, 1)) }}</span>
-                                    </div>
+                                @if($customer->photo_url)
+                                    <img src="{{ $customer->photo_url }}" alt="{{ $customer->name }}" class="w-8 h-8 rounded-full object-cover border border-gray-200 mx-auto" onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='flex'">
                                 @endif
+                                <div class="w-8 h-8 rounded-full bg-gray-100 border border-gray-200 items-center justify-center mx-auto {{ $customer->photo_url ? 'hidden' : 'flex' }}">
+                                    <span class="text-xs text-gray-400 font-bold">{{ strtoupper(substr($customer->name, 0, 1)) }}</span>
+                                </div>
                             </td>
                             <td class="px-4 py-3 text-sm">{{ $customer->name }}</td>
                             <td class="px-4 py-3 text-sm hidden sm:table-cell">{{ $customer->phone }}</td>
