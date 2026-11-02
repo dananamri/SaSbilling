@@ -19,6 +19,7 @@ class HotspotVoucherController extends Controller
         $vouchers = HotspotVoucher::with(['profile', 'member'])
             ->when($request->status, fn ($q) => $q->where('status', $request->status))
             ->when($request->profile_id, fn ($q) => $q->where('profile_id', $request->profile_id))
+            ->when($request->month, fn ($q) => $q->where('used_at', 'like', "{$request->month}%"))
             ->orderByDesc('created_at')
             ->paginate(20);
 
@@ -95,14 +96,14 @@ class HotspotVoucherController extends Controller
         $usedVouchers = HotspotVoucher::where('status', 'used')->count();
         $totalMembers = HotspotMember::count();
 
-        $vouchersByProfile = HotspotVoucher::selectRaw('hotspot_profiles.name as profile_name, COUNT(*) as total_count, SUM(CASE WHEN hotspot_vouchers.status = "used" THEN 1 ELSE 0 END) as used_count')
+        $vouchersByProfile = HotspotVoucher::selectRaw('hotspot_profiles.id as profile_id, hotspot_profiles.name as profile_name, COUNT(*) as total_count, SUM(CASE WHEN hotspot_vouchers.status = "used" THEN 1 ELSE 0 END) as used_count')
             ->join('hotspot_profiles', 'hotspot_vouchers.profile_id', '=', 'hotspot_profiles.id')
-            ->groupBy('hotspot_profiles.name')
+            ->groupBy('hotspot_profiles.id', 'hotspot_profiles.name')
             ->get();
 
-        $membersByProfile = HotspotMember::selectRaw('hotspot_profiles.name as profile_name, COUNT(*) as member_count')
+        $membersByProfile = HotspotMember::selectRaw('hotspot_profiles.id as profile_id, hotspot_profiles.name as profile_name, COUNT(*) as member_count')
             ->join('hotspot_profiles', 'hotspot_members.profile_id', '=', 'hotspot_profiles.id')
-            ->groupBy('hotspot_profiles.name')
+            ->groupBy('hotspot_profiles.id', 'hotspot_profiles.name')
             ->get();
 
         $dateFormat = DB::getDriverName() === 'sqlite'

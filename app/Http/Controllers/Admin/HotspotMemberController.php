@@ -16,6 +16,7 @@ class HotspotMemberController extends Controller
     {
         $members = HotspotMember::with('profile')
             ->when($request->status, fn ($q) => $q->where('status', $request->status))
+            ->when($request->profile_id, fn ($q) => $q->where('profile_id', $request->profile_id))
             ->when($request->search, fn ($q) => $q->where(function ($query) use ($request) {
                 $query->where('username', 'like', "%{$request->search}%")
                     ->orWhere('fullname', 'like', "%{$request->search}%");
