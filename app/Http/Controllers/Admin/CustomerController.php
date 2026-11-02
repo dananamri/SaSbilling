@@ -54,6 +54,7 @@ class CustomerController extends Controller
             'joined_at' => 'nullable|date',
             'password' => 'required|string|min:6|confirmed',
             'photo' => 'nullable|image|max:2048',
+            'ktp_photo' => 'nullable|image|max:2048',
             'tenant_id' => $isSuperAdmin ? 'required|exists:tenants,id' : 'nullable',
         ]);
 
@@ -62,6 +63,10 @@ class CustomerController extends Controller
 
         if ($request->hasFile('photo')) {
             $validated['photo'] = $request->file('photo')->store('customers/photos', 'public');
+        }
+
+        if ($request->hasFile('ktp_photo')) {
+            $validated['ktp_photo'] = $request->file('ktp_photo')->store('customers/ktp', 'public');
         }
 
         // Set tenant_id: SuperAdmin can choose, others use their tenant
@@ -105,6 +110,7 @@ class CustomerController extends Controller
             'joined_at' => 'nullable|date',
             'password' => 'nullable|string|min:6|confirmed',
             'photo' => 'nullable|image|max:2048',
+            'ktp_photo' => 'nullable|image|max:2048',
             'tenant_id' => $isSuperAdmin ? 'required|exists:tenants,id' : 'nullable',
         ]);
 
@@ -121,6 +127,14 @@ class CustomerController extends Controller
                 Storage::disk('public')->delete($customer->photo);
             }
             $validated['photo'] = $request->file('photo')->store('customers/photos', 'public');
+        }
+
+        // Handle ktp upload
+        if ($request->hasFile('ktp_photo')) {
+            if ($customer->ktp_photo) {
+                Storage::disk('public')->delete($customer->ktp_photo);
+            }
+            $validated['ktp_photo'] = $request->file('ktp_photo')->store('customers/ktp', 'public');
         }
 
         // Set tenant_id: SuperAdmin can choose, others keep original tenant

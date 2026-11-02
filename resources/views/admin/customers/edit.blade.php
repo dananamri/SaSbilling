@@ -101,6 +101,17 @@
             </div>
             @endif
             <div class="col-span-1 sm:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Foto KTP (Opsional)</label>
+                @if($customer->ktp_photo_url)
+                    <div class="mb-2">
+                        <img src="{{ $customer->ktp_photo_url }}" alt="KTP Saat Ini" class="h-24 w-auto rounded-lg border object-cover">
+                    </div>
+                @endif
+                <input type="file" name="ktp_photo" accept="image/*" class="w-full text-xs text-gray-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer border rounded-lg bg-white">
+                @error('ktp_photo')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                <p class="text-xs text-gray-500 mt-1">Format: JPG, PNG • Maksimal 2MB (Biarkan kosong jika tidak diubah)</p>
+            </div>
+            <div class="col-span-1 sm:col-span-2">
                 <label class="block text-sm font-medium text-gray-700 mb-1">Alamat Pemasangan</label>
                 <textarea name="address" rows="3" class="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-100 focus:border-blue-500">{{ old('address', $customer->address) }}</textarea>
             </div>

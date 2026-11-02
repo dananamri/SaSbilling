@@ -32,6 +32,17 @@
                     </dd>
                 </div>
                 <div class="flex justify-between"><dt class="text-gray-500">Bergabung</dt><dd>{{ $customer->joined_at?->format('d M Y') ?? '-' }}</dd></div>
+                @if($customer->ktp_photo_url)
+                    <div class="pt-3 border-t">
+                        <dt class="text-gray-500 mb-1">Foto KTP</dt>
+                        <dd>
+                            <a href="{{ $customer->ktp_photo_url }}" target="_blank" class="block group relative rounded-lg overflow-hidden border border-gray-200">
+                                <img src="{{ $customer->ktp_photo_url }}" alt="KTP {{ $customer->name }}" class="w-full h-36 object-cover group-hover:scale-105 transition duration-300">
+                                <span class="absolute bottom-1 right-1 bg-black/60 text-white text-[10px] px-1.5 py-0.5 rounded">Lihat Asli</span>
+                            </a>
+                        </dd>
+                    </div>
+                @endif
             </dl>
             <div class="mt-4 flex flex-col sm:flex-row gap-2 sm:space-x-2">
                 @if($customer->status->value === 'pending')

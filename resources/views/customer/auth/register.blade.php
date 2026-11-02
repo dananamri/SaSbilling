@@ -25,7 +25,7 @@
             </div>
 
             <!-- Form -->
-            <form method="POST" action="{{ route('customer.register.post') }}">
+            <form method="POST" action="{{ route('customer.register.post') }}" enctype="multipart/form-data">
                 @csrf
 
                 @if($errors->any())
@@ -82,6 +82,12 @@
                             </option>
                         @endforeach
                     </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-gray-700 mb-1">Foto KTP *</label>
+                    <input type="file" name="ktp_photo" accept="image/*" required class="w-full text-xs text-gray-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer border border-gray-200 rounded-lg bg-gray-50">
+                    <p class="text-[11px] text-gray-400 mt-1">Format: JPG, PNG • Maksimal 2MB</p>
                 </div>
 
                 <div class="mb-5">

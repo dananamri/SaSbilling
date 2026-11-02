@@ -22,6 +22,7 @@ class Customer extends Model implements AuthenticatableContract
         'email',
         'address',
         'photo',
+        'ktp_photo',
         'package_id',
         'status',
         'billing_day',
@@ -47,6 +48,15 @@ class Customer extends Model implements AuthenticatableContract
     {
         if ($this->photo && Storage::disk('public')->exists($this->photo)) {
             return asset('storage/'.$this->photo);
+        }
+
+        return null;
+    }
+
+    public function getKtpPhotoUrlAttribute(): ?string
+    {
+        if ($this->ktp_photo && Storage::disk('public')->exists($this->ktp_photo)) {
+            return asset('storage/'.$this->ktp_photo);
         }
 
         return null;

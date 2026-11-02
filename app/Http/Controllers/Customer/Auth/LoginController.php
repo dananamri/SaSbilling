@@ -40,7 +40,13 @@ class LoginController extends Controller
             'password' => 'required|string|min:6|confirmed',
             'package_id' => 'required|exists:packages,id',
             'payment_method' => 'required|string',
+            'ktp_photo' => 'nullable|image|max:2048',
         ]);
+
+        $ktpPath = null;
+        if ($request->hasFile('ktp_photo')) {
+            $ktpPath = $request->file('ktp_photo')->store('customers/ktp', 'public');
+        }
 
         $package = Package::findOrFail($validated['package_id']);
 
@@ -50,6 +56,7 @@ class LoginController extends Controller
             'email' => $validated['email'],
             'phone' => $validated['phone'],
             'address' => $validated['address'],
+            'ktp_photo' => $ktpPath,
             'password' => Hash::make($validated['password']),
             'package_id' => $validated['package_id'],
             'status' => CustomerStatus::Pending,
