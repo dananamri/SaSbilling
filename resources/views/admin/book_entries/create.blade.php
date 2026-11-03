@@ -21,16 +21,47 @@
                 </div>
             </div>
 
-            <div>
+            <div x-data="{
+                open: false,
+                selected: '{{ old('category') }}',
+                categories: [
+                    'Operasional Kantor',
+                    'Biaya Bandwidth / Backbone',
+                    'Maintenance & Alat Lapangan',
+                    'Gaji & Bonus',
+                    'Pendapatan Tambahan'
+                ]
+            }" class="relative">
                 <label class="block text-sm font-medium text-gray-700">Kategori</label>
-                <input type="text" name="category" list="categories" placeholder="e.g. Pembelian Router, Sewa Tiang, Bensin, Gaji" required class="mt-1 w-full border border-gray-300 rounded px-3 py-2 text-sm">
-                <datalist id="categories">
-                    <option value="Operasional Kantor">
-                    <option value="Biaya Bandwidth / Backbone">
-                    <option value="Maintenance & Alat Lapangan">
-                    <option value="Gaji & Bonus">
-                    <option value="Pendapatan Tambahan">
-                </datalist>
+                <div class="relative mt-1">
+                    <input type="text"
+                           name="category"
+                           x-model="selected"
+                           @focus="open = true"
+                           @click.outside="open = false"
+                           placeholder="Pilih atau ketik kategori..."
+                           required
+                           autocomplete="off"
+                           class="w-full border border-gray-300 rounded px-3 py-2 text-sm pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button type="button"
+                            @click="open = !open"
+                            class="absolute inset-y-0 right-0 flex items-center pr-2 text-gray-400 hover:text-gray-600 focus:outline-none">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                </div>
+                <div x-show="open"
+                     x-transition
+                     class="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded shadow-lg max-h-48 overflow-y-auto"
+                     style="display: none;">
+                    <template x-for="cat in categories" :key="cat">
+                        <div @click="selected = cat; open = false"
+                             class="px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 cursor-pointer border-b border-gray-50 last:border-0"
+                             x-text="cat">
+                        </div>
+                    </template>
+                </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
