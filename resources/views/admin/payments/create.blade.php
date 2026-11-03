@@ -20,8 +20,8 @@
                     @error('invoice_id')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@endif
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Jumlah (Rp) *</label>
-                    <input type="number" name="amount" value="{{ old('amount') }}" min="1" class="w-full border rounded px-3 py-2 text-sm @error('amount') border-red-500 @endif">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Jumlah (Rp) * <span class="text-xs text-gray-500 font-normal">(kelipatan ribuan)</span></label>
+                    <input type="number" name="amount" value="{{ old('amount') }}" min="1000" step="1000" placeholder="100000" class="w-full border rounded px-3 py-2 text-sm @error('amount') border-red-500 @endif">
                     @error('amount')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@endif
                 </div>
                 <div>

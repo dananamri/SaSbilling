@@ -42,8 +42,8 @@
                     @error('period')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@endif
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Jumlah (Rp) *</label>
-                    <input type="number" name="amount" value="{{ old('amount') }}" x-model="selectedPrice" min="0" class="w-full border rounded px-3 py-2 text-sm @error('amount') border-red-500 @endif">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Jumlah (Rp) * <span class="text-xs text-gray-500 font-normal">(kelipatan ribuan)</span></label>
+                    <input type="number" name="amount" value="{{ old('amount') }}" x-model="selectedPrice" min="1000" step="1000" class="w-full border rounded px-3 py-2 text-sm @error('amount') border-red-500 @endif">
                     @error('amount')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@endif
                     <p class="text-xs text-gray-500 mt-1">Otomatis terisi dari harga paket pelanggan</p>
                 </div>

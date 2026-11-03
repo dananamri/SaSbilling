@@ -25,8 +25,8 @@
                     <input type="text" name="speed" value="{{ old('speed') }}" placeholder="contoh: 50 Mbps" class="w-full border rounded px-3 py-2 text-sm">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Harga (Rp) *</label>
-                    <input type="number" name="price" value="{{ old('price') }}" min="0" class="w-full border rounded px-3 py-2 text-sm @error('price') border-red-500 @endif">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Harga (Rp) * <span class="text-xs text-gray-500 font-normal">(kelipatan ribuan)</span></label>
+                    <input type="number" name="price" value="{{ old('price') }}" min="1000" step="1000" placeholder="150000" class="w-full border rounded px-3 py-2 text-sm @error('price') border-red-500 @endif">
                     @error('price')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@endif
                 </div>
                 <div>

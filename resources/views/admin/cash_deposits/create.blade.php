@@ -8,8 +8,8 @@
         @csrf
         <div class="space-y-4">
             <div>
-                <label class="block text-sm font-medium text-gray-700">Jumlah Setoran (Rp) *</label>
-                <input type="number" name="amount" min="1" step="any" required class="mt-1 w-full border border-gray-300 rounded px-3 py-2 text-sm">
+                <label class="block text-sm font-medium text-gray-700">Jumlah Setoran (Rp) * <span class="text-xs text-gray-500 font-normal">(kelipatan ribuan)</span></label>
+                <input type="number" name="amount" min="1000" step="1000" required placeholder="100000" class="mt-1 w-full border border-gray-300 rounded px-3 py-2 text-sm">
             </div>
 
             <div>
